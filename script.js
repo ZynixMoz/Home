@@ -198,7 +198,7 @@ window.addEventListener("load", () => {
   favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   updateFavoriteButtons();
   updateFavoritesTab();
-});const startDate = new Date("2025-07-01T00:00:00Z");
+});const startDate = new Date("2025-09-01T00:00:00Z");
 
 const cardViewSettings = {
   "Speedrun Timer": { base: 1600, interval: 60 },

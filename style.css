@@ -143,6 +143,10 @@ a {
   outline: none !important;
   box-shadow: none !important;
 }
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
 
 /* No results */
 .no-results {
@@ -197,9 +201,6 @@ a {
 .tab-button:hover {
   transform: scale(1.05);
 }
-button:focus {
-  outline: none;
-}
 .tab-content {
   display: none;
 }
@@ -229,20 +230,8 @@ button:focus {
   text-shadow: 0 0 15px gold;
 }
 
-/* Remove button focus highlight globally */
+/* Remove focus highlight globally */
 *:focus {
   outline: none !important;
   box-shadow: none !important;
-}
-
-/* FIX: Force tabs and animations to work */
-.tab-content {
-  display: none !important;
-}
-.tab-content.active {
-  display: block !important;
-}
-.animate.show {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
 }

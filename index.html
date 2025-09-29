@@ -7,54 +7,81 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <canvas id="particles"></canvas>
 
 <header>
-    <img src="images/main.png" alt="Moz Scripts Logo" class="main-logo">
-    <h1>Moz Scripts 📜</h1>
+<img src="images/main.png" alt="Moz Scripts Logo" class="main-logo">
+<h1>Moz Scripts 📜</h1>
 </header>
 
 <div class="tabs">
-    <button class="tab-button active" data-tab="scriptsTab">Scripts</button>
-    <button class="tab-button" data-tab="favoritesTab">Favorites ⭐</button>
+<button class="tab-button active" data-tab="scriptsTab">Scripts</button>
+<button class="tab-button" data-tab="favoritesTab">Favorites ⭐</button>
 </div>
 
 <section id="scriptsTab" class="tab-content active">
-    <div class="scripts">
-        <div class="search-wrap">
-            <input id="searchInput" type="search" placeholder="Search scripts..." aria-label="Search scripts">
-        </div>
+<div class="scripts">
+<div class="search-wrap">
+<input id="searchInput" type="search" placeholder="Search scripts..." aria-label="Search scripts">
+</div>
+<div id="searchContainer">
+  <input type="text" id="searchInput" placeholder="Search scripts..." />
+</div>
 
-        <div class="card animate" data-name="Speedrun Timer">
-            <div class="favorite-btn"></div>
-            <img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
-            <h2>Speedrun Timer ⚡</h2>
-            <p class="description">Track your speedruns with precision.</p>
-            <a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
-            <a href="https://jumpshare.com/s/NTxmsfAeoYN7SLwy4n9g" target="_blank" class="showcase">Showcase</a>
-        </div>
+<div id="tabs">
+  <button class="tab-button active" data-tab="scriptsTab">Scripts</button>
+  <button class="tab-button" data-tab="favoritesTab">Favorites</button>
+</div>
 
-        <div class="card animate" data-name="Coming Soon">
-            <div class="favorite-btn"></div>
-            <img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
-            <h2>Coming Soon 👀</h2>
-            <p class="description">Soon.</p>
-            <a href="#" class="get-script">Coming Soon</a>
-            <a href="#" class="showcase">Coming Soon</a>
-        </div>
+<div id="scriptsTab" class="tab-content active">
+  <div class="card animate" data-name="Speedrun Timer">
+    <h3>Speedrun Timer</h3>
+    <p class="description">Track your speedruns easily.</p>
+    <div class="get-script">Get Script</div>
+  </div>
+  <div class="card animate" data-name="Coming Soon">
+    <h3>Coming Soon</h3>
+    <p class="description">More scripts coming soon!</p>
+    <div class="get-script">Get Script</div>
+  </div>
+  <p id="noResults" style="display:none;">No scripts found.</p>
+</div>
 
-        <div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
-    </div>
+<div id="favoritesTab" class="tab-content">
+  <div id="favoritesList"></div>
+  <p id="noFavorites">No favorites yet.</p>
+</div>
+
+<canvas id="particles"></canvas>
+<div class="card animate" data-name="Speedrun Timer">
+<img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
+<h2>Speedrun Timer ⚡</h2>
+<p class="description">Track your speedruns with precision.</p>
+<a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
+<a href="https://jumpshare.com/s/NTxmsfAeoYN7SLwy4n9g" target="_blank" class="showcase">Showcase</a>
+</div>
+
+<div class="card animate" data-name="Coming Soon">
+<img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
+<h2>Coming Soon 👀</h2>
+<p class="description">Soon.</p>
+<a href="#" class="get-script">Coming Soon</a>
+<a href="#" class="showcase">Coming Soon</a>
+</div>
+
+<!-- Add other cards here -->
+
+<div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
+</div>
 </section>
 
 <section id="favoritesTab" class="tab-content">
-    <div id="favoritesList" class="scripts"></div>
-    <div id="noFavorites" class="no-results" style="display:none;">No favorites yet.</div>
+<div id="favoritesList" class="scripts"></div>
+<div id="noFavorites" class="no-results" style="display:none;">No favorites yet.</div>
 </section>
 
 <div class="socials">
-    <a href="https://discord.gg/wchns7Bcnq" target="_blank" class="social help">Help?</a>
+<a href="https://discord.gg/wchns7Bcnq" target="_blank" class="social help">Help?</a>
 </div>
 
 <script src="script.js"></script>

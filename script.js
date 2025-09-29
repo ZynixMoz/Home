@@ -198,53 +198,25 @@ window.addEventListener("load", () => {
   favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   updateFavoriteButtons();
   updateFavoritesTab();
-});// start time for the "global" counter
-const startDate = new Date("2024-01-01T00:00:00Z"); 
+});// ===== GLOBAL VIEWS (truth-half-fake) =====
 
-// cooldown for clicks
-const cooldown = 5000; 
-let lastClick = {};
+// Start date (new year so views are smaller)
+const startDate = new Date("2025-01-01T00:00:00Z");
 
 // update views every second
 function updateViews() {
-  document.querySelectorAll(".card").forEach(card => {
-    const name = card.getAttribute("data-name");
-    const viewsEl = card.querySelector(".views-count");
+  // calculate base views
+  const now = new Date();
+  const seconds = Math.floor((now - startDate) / 1000);
+  const baseViews = Math.floor(seconds / 60) + 1600; 
+  // starts around 1.6k, grows +1 per 60s
 
-    // base count grows with time
-    const now = new Date();
-    const seconds = Math.floor((now - startDate) / 1000);
-    const baseViews = Math.floor(seconds / 5); // +1 every 5 seconds
-
-    // personal extra clicks saved in localStorage
-    const clicks = JSON.parse(localStorage.getItem("clicks-" + name)) || 0;
-
-    viewsEl.textContent = (baseViews + clicks).toLocaleString();
+  // set same number for ALL cards
+  document.querySelectorAll(".views-count").forEach(el => {
+    el.textContent = baseViews.toLocaleString();
   });
 }
 
-// handle click on "Get Script"
-function setupClicks() {
-  document.querySelectorAll(".card").forEach(card => {
-    const name = card.getAttribute("data-name");
-    const btn = card.querySelector(".get-script");
-
-    btn.addEventListener("click", () => {
-      const now = Date.now();
-      if (lastClick[name] && now - lastClick[name] < cooldown) return; // too fast
-
-      lastClick[name] = now;
-
-      let clicks = JSON.parse(localStorage.getItem("clicks-" + name)) || 0;
-      clicks++;
-      localStorage.setItem("clicks-" + name, clicks);
-
-      updateViews();
-    });
-  });
-}
-
-// start it
-setupClicks();
+// start loop
 updateViews();
-setInterval(updateViews, 1000); // refresh every sec
+setInterval(updateViews, 1000);

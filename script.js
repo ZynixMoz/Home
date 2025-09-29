@@ -1,4 +1,4 @@
-// Play click sound when "Get Script" or "Showcase" buttons are clicked
+// ===== Click sound for buttons =====
 document.querySelectorAll('.get-script, .showcase').forEach(button => {
   button.addEventListener('click', () => {
     let audio = new Audio('settings/click.mp3');
@@ -7,7 +7,7 @@ document.querySelectorAll('.get-script, .showcase').forEach(button => {
   });
 });
 
-// 🚫 Disable right-click
+// ===== Disable right-click =====
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 // ===== Search functionality =====
@@ -134,20 +134,19 @@ tabButtons.forEach(btn => {
 // ===== Favorites system =====
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-function toggleFavorite(btn) {
-  const card = btn.closest(".card");
+function toggleFavorite(e) {
+  const card = e.target.closest(".card");
   const name = card.dataset.name;
 
   if (favorites.includes(name)) {
     favorites = favorites.filter(f => f !== name);
-    btn.classList.remove("active");
   } else {
     favorites.push(name);
-    btn.classList.add("active");
   }
 
   localStorage.setItem("favorites", JSON.stringify(favorites));
   updateFavorites();
+  updateFavoriteButtons();
 }
 
 function updateFavorites() {
@@ -158,26 +157,32 @@ function updateFavorites() {
     const card = document.querySelector(`.card[data-name="${name}"]`);
     if (card) {
       const clone = card.cloneNode(true);
-      const favBtn = clone.querySelector(".favorite-btn");
-      favBtn.addEventListener("click", () => toggleFavorite(favBtn));
-      favBtn.classList.add("active");
+      const btn = clone.querySelector(".favorite-btn");
+      btn.addEventListener("click", toggleFavorite);
+      btn.textContent = "🟡";
       favList.appendChild(clone);
     }
   });
 }
 
+function updateFavoriteButtons() {
+  document.querySelectorAll(".card").forEach(card => {
+    const btn = card.querySelector(".favorite-btn");
+    if (!btn) return;
+    const name = card.dataset.name;
+    btn.textContent = favorites.includes(name) ? "🟡" : "🔴";
+  });
+}
+
+// Add favorite buttons to cards
 document.querySelectorAll(".card").forEach(card => {
   const favBtn = document.createElement("div");
   favBtn.classList.add("favorite-btn");
-  favBtn.innerHTML = "⭐";
+  favBtn.textContent = favorites.includes(card.dataset.name) ? "🟡" : "🔴";
   card.appendChild(favBtn);
-
-  favBtn.addEventListener("click", () => toggleFavorite(favBtn));
-
-  // Mark favorite if already saved
-  if (favorites.includes(card.dataset.name)) {
-    favBtn.classList.add("active");
-  }
+  favBtn.addEventListener("click", toggleFavorite);
 });
 
+// Initial load
 updateFavorites();
+updateFavoriteButtons();

@@ -1,4 +1,5 @@
-// ===== CLICK SOUND =====
+// script.js
+// CLICK SOUND
 document.querySelectorAll('.get-script, .showcase').forEach(button => {
   button.addEventListener('click', () => {
     let audio = new Audio('settings/click.mp3');
@@ -7,14 +8,13 @@ document.querySelectorAll('.get-script, .showcase').forEach(button => {
   });
 });
 
-// ===== DISABLE RIGHT-CLICK =====
+// DISABLE RIGHT-CLICK
 document.addEventListener('contextmenu', event => event.preventDefault());
 
-// ===== SEARCH FUNCTIONALITY =====
+// SEARCH FUNCTIONALITY
 const searchInput = document.getElementById('searchInput');
 const cards = Array.from(document.querySelectorAll('.card'));
 const noResults = document.getElementById('noResults');
-
 function filterCards(query) {
   const q = query.trim().toLowerCase();
   if (!q) {
@@ -22,7 +22,6 @@ function filterCards(query) {
     noResults.style.display = 'none';
     return;
   }
-
   let visibleCount = 0;
   cards.forEach(card => {
     const name = (card.getAttribute('data-name') || '').toLowerCase();
@@ -35,10 +34,8 @@ function filterCards(query) {
       card.style.display = 'none';
     }
   });
-
   noResults.style.display = visibleCount === 0 ? '' : 'none';
 }
-
 searchInput.addEventListener('input', e => filterCards(e.target.value));
 searchInput.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
@@ -48,185 +45,5 @@ searchInput.addEventListener('keydown', e => {
   }
 });
 
-// ===== SCROLL REVEAL =====
-const animatedCards = document.querySelectorAll('.animate');
-function showOnScroll() {
-  const triggerBottom = window.innerHeight * 0.85;
-  animatedCards.forEach(card => {
-    const cardTop = card.getBoundingClientRect().top;
-    if (cardTop < triggerBottom) {
-      card.classList.add('show');
-    }
-  });
-}
-window.addEventListener('scroll', showOnScroll);
-window.addEventListener('load', showOnScroll);
-
-// ===== PARTICLE BACKGROUND =====
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let particlesArray;
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-class Particle {
-  constructor() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 2;
-    this.speedX = (Math.random() - 0.5) * 0.3;
-    this.speedY = (Math.random() - 0.5) * 0.3;
-  }
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-  }
-  draw() {
-    ctx.fillStyle = 'white';
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
-function initParticles() {
-  particlesArray = [];
-  let numberOfParticles = (canvas.width * canvas.height) / 15000;
-  for (let i = 0; i < numberOfParticles; i++) {
-    particlesArray.push(new Particle());
-  }
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particlesArray.forEach(p => {
-    p.update();
-    p.draw();
-  });
-  requestAnimationFrame(animateParticles);
-}
-initParticles();
-animateParticles();
-
-// ===== TABS =====
-const tabButtons = document.querySelectorAll(".tab-button");
-const tabContents = document.querySelectorAll(".tab-content");
-
-tabButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    tabButtons.forEach(b => b.classList.remove("active"));
-    tabContents.forEach(c => c.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById(btn.dataset.tab).classList.add("active");
-
-    if (btn.dataset.tab === "favoritesTab") {
-      updateFavoritesTab();
-    }
-  });
-});
-
-// ===== FAVORITES SYSTEM =====
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-function toggleFavorite(e) {
-  const card = e.target.closest(".card");
-  if (!card) return;
-  const name = card.dataset.name;
-
-  if (favorites.includes(name)) {
-    favorites = favorites.filter(f => f !== name);
-  } else {
-    favorites.push(name);
-  }
-
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  updateFavoriteButtons();
-  updateFavoritesTab();
-}
-
-function updateFavoritesTab() {
-  const favList = document.getElementById("favoritesList");
-  const noFav = document.getElementById("noFavorites");
-  favList.innerHTML = "";
-
-  if (favorites.length === 0) {
-    noFav.style.display = "block";
-    return;
-  } else {
-    noFav.style.display = "none";
-  }
-
-  favorites.forEach(name => {
-    const originalCard = document.querySelector(`.card[data-name="${name}"]`);
-    if (originalCard) {
-      const clone = originalCard.cloneNode(true);
-      clone.classList.add("animate");
-      const btn = clone.querySelector(".favorite-btn");
-      if (btn) {
-        btn.textContent = "⭐";
-        btn.onclick = toggleFavorite;
-      }
-      favList.appendChild(clone);
-    }
-  });
-
-  showOnScroll();
-}
-
-function updateFavoriteButtons() {
-  document.querySelectorAll(".card").forEach(card => {
-    let btn = card.querySelector(".favorite-btn");
-    if (!btn) {
-      btn = document.createElement("div");
-      btn.classList.add("favorite-btn");
-      card.appendChild(btn);
-    }
-    const name = card.dataset.name;
-    btn.textContent = favorites.includes(name) ? "⭐" : "❏";
-    btn.onclick = toggleFavorite;
-  });
-}
-
-window.addEventListener("load", () => {
-  favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  updateFavoriteButtons();
-  updateFavoritesTab();
-});
-
-// ===== COLOR THEME SWITCHER =====
-const logo = document.querySelector('.main-logo');
-const themeNameLabel = document.getElementById('theme-name');
-
-const themes = [
-  { name: "🔴 Red", bg: "#ff0000", cardBg: "rgba(255,255,255,0.03)", text: "#fff" },
-  { name: "🟠 Orange", bg: "#ff7f00", cardBg: "rgba(255,255,255,0.03)", text: "#fff" },
-  { name: "⚪ White", bg: "#ffffff", cardBg: "rgba(0,0,0,0.05)", text: "#000" },
-  { name: "⚫ Black", bg: "#000000", cardBg: "rgba(255,255,255,0.03)", text: "#fff" },
-  { name: "🩶 Dark Gray", bg: "#111111", cardBg: "rgba(255,255,255,0.02)", text: "#ddd" }
-];
-
-let themeIndex = 0;
-
-function applyTheme(theme) {
-  document.body.style.background = theme.bg;
-  document.documentElement.style.setProperty("--card-bg", theme.cardBg);
-  document.documentElement.style.setProperty("--text-color", theme.text);
-
-  if (themeNameLabel) themeNameLabel.textContent = theme.name + " Mode";
-}
-
-if (logo) {
-  logo.addEventListener('click', () => {
-    themeIndex = (themeIndex + 1) % themes.length;
-    applyTheme(themes[themeIndex]);
-  });
-}
-
-applyTheme(themes[themeIndex]);
+// SCROLL REVEAL
+const animated

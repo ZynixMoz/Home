@@ -1,85 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Moz Scripts 📜</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Moz Scripts 📜</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Particle background -->
-  <canvas id="particles"></canvas>
+<header>
+  <img src="images/main.png" alt="Moz Scripts Logo" class="main-logo">
+  <h1>Moz Scripts 📜</h1>
+</header>
 
-  <!-- Header -->
-  <header>
-    <img src="images/main.png" alt="Moz Scripts Logo" class="main-logo">
-    <h1>Moz Scripts 📜</h1>
-  </header>
+<!-- Tabs -->
+<div class="tabs">
+  <button id="scriptsTab" class="tab-button active">Scripts</button>
+  <button id="favoritesTab" class="tab-button">Favorites ⭐</button>
+</div>
 
-  <!-- Socials -->
-  <div class="socials">
-    <a href="https://discord.gg/yourserver" target="_blank" class="social discord">Discord</a>
-    <a href="https://youtube.com/@yourchannel" target="_blank" class="social youtube">YouTube</a>
-    <a href="https://tiktok.com/@yourhandle" target="_blank" class="social tiktok">TikTok</a>
-    <a href="https://roblox.com/users/yourid/profile" target="_blank" class="social roblox">Roblox</a>
+<!-- Scripts Section -->
+<section id="scriptsSection" class="scripts">
+  <div class="search-wrap">
+    <input id="searchInput" type="search" placeholder="Search scripts..." aria-label="Search scripts">
   </div>
 
-  <!-- Scripts Section -->
-  <section class="scripts">
-    <!-- Search bar -->
-    <div class="search-wrap">
-      <input id="searchInput" type="search" placeholder="Search scripts..." aria-label="Search scripts">
-    </div>
+  <!-- Script 1 -->
+  <div class="card animate" data-name="Speedrun Timer">
+    <span class="favorite-btn">⭐</span>
+    <img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
+    <h2>Speedrun Timer ⚡</h2>
+    <p class="description">Track your speedruns with precision.</p>
+    <a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
+    <a href="https://jumpshare.com/s/NTxmsfAeoYN7SLwy4n9g" target="_blank" class="showcase">Showcase</a>
+  </div>
 
-    <!-- Script 1 -->
-    <div class="card animate" data-name="Speedrun Timer">
-      <img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>Speedrun Timer ⚡</h2>
-      <p class="description">Track your speedruns with precision.</p>
-      <a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
-      <a href="https://jumpshare.com/s/NTxmsfAeoYN7SLwy4n9g" target="_blank" class="showcase">Showcase</a>
-    </div>
+  <!-- Script 2 -->
+  <div class="card animate" data-name="ESP Wallhack">
+    <span class="favorite-btn">⭐</span>
+    <img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
+    <h2>ESP Wallhack 👀</h2>
+    <p class="description">See players through walls easily.</p>
+    <a href="https://your-script-link.com/esp" target="_blank" class="get-script">Get Script</a>
+    <a href="https://your-showcase-link.com/esp" target="_blank" class="showcase">Showcase</a>
+  </div>
 
-    <!-- Script 2 -->
-    <div class="card animate" data-name="ESP Wallhack">
-      <img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>ESP Wallhack 👀</h2>
-      <p class="description">See players through walls easily.</p>
-      <a href="https://your-script-link.com/esp" target="_blank" class="get-script">Get Script</a>
-      <a href="https://your-showcase-link.com/esp" target="_blank" class="showcase">Showcase</a>
-    </div>
+  <!-- Script 3 -->
+  <div class="card animate" data-name="Auto Farm Cash">
+    <span class="favorite-btn">⭐</span>
+    <img src="images/thumb3.png" alt="Script Thumbnail" class="thumbnail">
+    <h2>Auto Farm Cash 💸</h2>
+    <p class="description">Farm cash automatically with no effort.</p>
+    <a href="https://your-script-link.com/autofarm" target="_blank" class="get-script">Get Script</a>
+    <a href="https://your-showcase-link.com/autofarm" target="_blank" class="showcase">Showcase</a>
+  </div>
 
-    <!-- Script 3 -->
-    <div class="card animate" data-name="Auto Farm Cash">
-      <img src="images/thumb3.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>Auto Farm Cash 💸</h2>
-      <p class="description">Farm cash automatically with no effort.</p>
-      <a href="https://your-script-link.com/autofarm" target="_blank" class="get-script">Get Script</a>
-      <a href="https://your-showcase-link.com/autofarm" target="_blank" class="showcase">Showcase</a>
-    </div>
+  <!-- Script 4 -->
+  <div class="card animate" data-name="Teleport Anywhere">
+    <span class="favorite-btn">⭐</span>
+    <img src="images/thumb4.png" alt="Script Thumbnail" class="thumbnail">
+    <h2>Teleport Anywhere ⚡</h2>
+    <p class="description">Teleport instantly to any location.</p>
+    <a href="https://your-script-link.com/teleport" target="_blank" class="get-script">Get Script</a>
+    <a href="https://your-showcase-link.com/teleport" target="_blank" class="showcase">Showcase</a>
+  </div>
 
-    <!-- Script 4 -->
-    <div class="card animate" data-name="Teleport Anywhere">
-      <img src="images/thumb4.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>Teleport Anywhere ⚡</h2>
-      <p class="description">Teleport instantly to any location.</p>
-      <a href="https://your-script-link.com/teleport" target="_blank" class="get-script">Get Script</a>
-      <a href="https://your-showcase-link.com/teleport" target="_blank" class="showcase">Showcase</a>
-    </div>
+  <!-- Script 5 -->
+  <div class="card animate" data-name="Godmode Invincibility">
+    <span class="favorite-btn">⭐</span>
+    <img src="images/thumb5.png" alt="Script Thumbnail" class="thumbnail">
+    <h2>Godmode Invincibility 💀</h2>
+    <p class="description">Become completely invincible.</p>
+    <a href="https://your-script-link.com/godmode" target="_blank" class="get-script">Get Script</a>
+    <a href="https://your-showcase-link.com/godmode" target="_blank" class="showcase">Showcase</a>
+  </div>
 
-    <!-- Script 5 -->
-    <div class="card animate" data-name="Godmode Invincibility">
-      <img src="images/thumb5.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>Godmode Invincibility 💀</h2>
-      <p class="description">Become completely invincible.</p>
-      <a href="https://your-script-link.com/godmode" target="_blank" class="get-script">Get Script</a>
-      <a href="https://your-showcase-link.com/godmode" target="_blank" class="showcase">Showcase</a>
-    </div>
+  <div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
+</section>
 
-    <!-- No results -->
-    <div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
-  </section>
+<!-- Favorites Section -->
+<section id="favoritesSection" class="scripts" style="display:none;">
+  <h2>Your Favorites ⭐</h2>
+  <div id="favoritesList"></div>
+</section>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

@@ -4,6 +4,10 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; /* 🔒 disables text/image selection */
 }
 
 body {
@@ -11,6 +15,7 @@ body {
   color: white;
   text-align: center;
   min-height: 100vh;
+  overflow-y: scroll; /* ✅ enable scrolling */
 }
 
 /* Header */

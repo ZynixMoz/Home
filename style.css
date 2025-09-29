@@ -262,3 +262,23 @@ button:focus, .favorite-btn:focus {
   outline: none;
   box-shadow: none;
 }
+.meta-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+  align-items: center;
+  font-weight: 600;
+  color: #ddd;
+  font-size: 0.95rem;
+}
+
+.views {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 0 8px rgba(255,255,255,0.03);
+}

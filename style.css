@@ -91,3 +91,24 @@ header h1 {
   outline: none;
   box-shadow: none; /* 🧼 remove glow */
 }
+/* Showcase Button */
+.showcase {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 50px;
+  background: red;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.showcase:hover {
+  background: darkred;
+}
+.showcase:focus,
+.showcase:active {
+  outline: none;
+  box-shadow: none;
+}

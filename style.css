@@ -5,13 +5,35 @@
   box-sizing: border-box;
   user-select: none; /* prevent highlight everywhere */
 }
+:root {
+  --bg-color: #ff0000; /* default red 🔴 */
+  --card-bg: rgba(255,255,255,0.03);
+  --text-color: #fff;
+}
 
 body {
-  background: #000;
-  color: #fff;
+  background: var(--bg-color);
+  color: var(--text-color);
   font-family: Arial, sans-serif;
   line-height: 1.6;
   text-align: center;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* Card */
+.card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
 }
 
 /* Header */
@@ -56,23 +78,7 @@ h1 {
   color: #aaa;
 }
 #searchInput, .search-wrap {
-  user-select: text; /* allow text in search */
-}
-
-/* Cards */
-.card {
-  background: rgba(255,255,255,0.05);
-  border-radius: 20px;
-  padding: 20px;
-  margin: 20px auto;
-  width: 80%;
-  max-width: 700px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-.card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+  user-select: text;
 }
 
 /* Titles */
@@ -117,7 +123,7 @@ h1 {
   font-weight: bold;
 }
 .get-script {
-  background: #fff; /* changed to white */
+  background: #fff;
   color: #000;
 }
 .get-script:hover {
@@ -126,7 +132,7 @@ h1 {
   transform: scale(1.05);
 }
 .showcase {
-  background: #ff0000; /* changed to red */
+  background: #ff0000;
   color: #fff;
 }
 .showcase:hover {
@@ -144,7 +150,7 @@ a,
 .favorite-btn {
   outline: none !important;
   box-shadow: none !important;
-  -webkit-tap-highlight-color: transparent; /* mobile highlight removal */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* No results */
@@ -217,7 +223,7 @@ a,
   transition: background 0.3s, transform 0.2s;
 }
 .tab-button.active {
-  background: linear-gradient(90deg, #ff7e00, #ffae00); /* orange gradient */
+  background: linear-gradient(90deg, #ff7e00, #ffae00);
   box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5);
 }
 .tab-button:hover {

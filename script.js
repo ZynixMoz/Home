@@ -118,3 +118,71 @@ function animateParticles() {
 
 initParticles();
 animateParticles();
+const scriptsTab = document.getElementById("scriptsTab");
+const favoritesTab = document.getElementById("favoritesTab");
+const scriptsSection = document.getElementById("scriptsSection");
+const favoritesSection = document.getElementById("favoritesSection");
+const favoritesList = document.getElementById("favoritesList");
+
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+// Toggle favorite
+function toggleFavorite(btn) {
+  const card = btn.closest(".card");
+  const name = card.dataset.name;
+
+  if (favorites.includes(name)) {
+    favorites = favorites.filter(f => f !== name);
+    btn.classList.remove("active");
+  } else {
+    favorites.push(name);
+    btn.classList.add("active");
+  }
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+  updateFavorites();
+}
+
+// Update favorites list
+function updateFavorites() {
+  favoritesList.innerHTML = "";
+  favorites.forEach(name => {
+    const card = document.querySelector(`.card[data-name="${name}"]`);
+    if (card) {
+      const clone = card.cloneNode(true);
+      clone.querySelector(".favorite-btn").addEventListener("click", () => toggleFavorite(clone.querySelector(".favorite-btn")));
+      favoritesList.appendChild(clone);
+    }
+  });
+}
+
+// Tab switching
+scriptsTab.addEventListener("click", () => {
+  scriptsTab.classList.add("active");
+  favoritesTab.classList.remove("active");
+  scriptsSection.style.display = "block";
+  favoritesSection.style.display = "none";
+});
+
+favoritesTab.addEventListener("click", () => {
+  favoritesTab.classList.add("active");
+  scriptsTab.classList.remove("active");
+  scriptsSection.style.display = "none";
+  favoritesSection.style.display = "block";
+  updateFavorites();
+});
+
+// Favorite button events
+document.querySelectorAll(".favorite-btn").forEach(btn => {
+  btn.addEventListener("click", () => toggleFavorite(btn));
+});
+
+// On page load — mark favorites
+document.querySelectorAll(".card").forEach(card => {
+  const name = card.dataset.name;
+  if (favorites.includes(name)) {
+    card.querySelector(".favorite-btn").classList.add("active");
+  }
+});
+
+updateFavorites();

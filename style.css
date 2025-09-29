@@ -121,3 +121,17 @@ h1 {
   font-size: 1.1rem;
   margin: 20px 0;
 }
+/* Thumbnails */
+.thumbnail {
+  width: 100%;
+  max-width: 500px; /* limit size */
+  height: auto;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.thumbnail:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+}

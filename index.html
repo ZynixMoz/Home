@@ -10,8 +10,8 @@
 <canvas id="particles"></canvas>
 
 <header>
-<img src="images/main.png" alt="Moz Scripts Logo" class="main-logo">
-<h1>Moz Scripts 📜</h1>
+  <img src="images/main.png" alt="Moz Scripts Logo" class="main-logo">
+  <h1>Moz Scripts 📜</h1>
 </header>
 
 <div class="tabs">
@@ -23,37 +23,33 @@
   <div class="scripts">
     <div class="search-wrap">
       <input id="searchInput" type="search" placeholder="Search scripts..." aria-label="Search scripts">
-      <button id="resetSearch">✖ Reset</button>
+      <button id="resetButton">Clear History</button>
       <div id="searchHistory"></div>
     </div>
 
-    <div id="scriptsContainer">
-      <div class="card animate" data-name="Speedrun Timer">
-        <img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
-        <h2>Speedrun Timer ⚡</h2>
-        <p class="description">Track your speedruns with precision.</p>
-        <a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
-        <a href="https://jumpshare.com/s/NTxmsfAeoYN7SLwy4n9g" target="_blank" class="showcase">Showcase</a>
-      </div>
-
-      <div class="card animate" data-name="Coming Soon">
-        <img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
-        <h2>Coming Soon 👀</h2>
-        <p class="description">Soon.</p>
-        <a href="#" class="get-script">Coming Soon</a>
-        <a href="#" class="showcase">Coming Soon</a>
-      </div>
-
-      <!-- Add other cards here -->
-
-      <p id="noResults" class="no-results" style="display:none;">No scripts found.</p>
+    <div class="card animate" data-name="Speedrun Timer">
+      <img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
+      <h2>Speedrun Timer ⚡</h2>
+      <p class="description">Track your speedruns with precision.</p>
+      <a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
+      <a href="https://jumpshare.com/s/NTxmsfAeoYN7SLwy4n9g" target="_blank" class="showcase">Showcase</a>
     </div>
+
+    <div class="card animate" data-name="Coming Soon">
+      <img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
+      <h2>Coming Soon 👀</h2>
+      <p class="description">Soon.</p>
+      <a href="#" class="get-script">Coming Soon</a>
+      <a href="#" class="showcase">Coming Soon</a>
+    </div>
+
+    <div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
   </div>
 </section>
 
 <section id="favoritesTab" class="tab-content">
   <div id="favoritesList" class="scripts"></div>
-  <p id="noFavorites" class="no-results" style="display:none;">No favorites yet.</p>
+  <div id="noFavorites" class="no-results" style="display:none;">No favorites yet.</div>
 </section>
 
 <div class="socials">

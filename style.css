@@ -1,114 +1,123 @@
-/* Reset */
+/* General Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; /* 🔒 no text/image selection */
-  -webkit-tap-highlight-color: transparent; /* 🔥 no blue mobile/desktop highlight */
+  user-select: none; /* prevent highlight everywhere */
 }
 
-/* Full page */
 body {
-  background: black; /* 🖤 solid black background */
-  color: white;
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
   text-align: center;
-  min-height: 100vh;
-  overflow-y: scroll; /* ✅ scrolling works */
 }
 
 /* Header */
 header {
   padding: 20px;
 }
-header .main-logo {
+.main-logo {
   width: 200px;
-  height: 200px;
-  object-fit: cover;
+  height: auto;
+  margin-bottom: 10px;
 }
-header h1 {
-  margin-top: 10px;
-  font-size: 3rem;
-  letter-spacing: 2px;
-}
-
-/* Scripts Section */
-.scripts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  margin: 40px 0;
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
 }
 
-/* Card (container) */
-.card {
-  background: rgba(255,255,255,0.05); /* semi-transparent */
-  border-radius: 20px;
+/* Search bar */
+.search-wrap {
   width: 80%;
   max-width: 900px;
+  margin: 20px auto;
+  text-align: center;
+}
+#searchInput {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: #eee;
+  font-size: 1.1rem;
+  outline: none;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+#searchInput:focus {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+#searchInput::placeholder {
+  color: #aaa;
+}
+#searchInput, .search-wrap {
+  user-select: text; /* allow text in search */
+}
+
+/* Cards */
+.card {
+  background: rgba(255,255,255,0.03);
+  border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 0 20px rgba(255,255,255,0.1);
-  transition: transform 0.2s ease;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 .card:hover {
   transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
 }
 
-.thumbnail {
-  width: 100%;
-  max-width: 1000px;
-  border-radius: 12px;
+/* Titles */
+.card h2 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 15px 0 10px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
 }
 
+/* Description */
 .description {
-  margin: 15px 0;
-  font-size: 1.1rem;
   color: #ccc;
+  margin-bottom: 15px;
 }
 
-/* Get Script Button */
-.get-script {
-  display: inline-block;
-  padding: 12px 30px;
-  border-radius: 50px;
-  background: lightgray;
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s;
-  cursor: pointer;
-  outline: none; /* 🔥 no focus outline */
-}
-.get-script:hover {
-  background: white;
-}
-.get-script:focus,
-.get-script:active {
-  outline: none;
-  box-shadow: none; /* 🧼 remove glow */
-}
-/* Showcase Button */
+/* Buttons */
+.get-script,
 .showcase {
   display: inline-block;
-  padding: 12px 30px;
-  border-radius: 50px;
-  background: red;
-  color: white;
+  margin: 10px 5px;
+  padding: 10px 20px;
+  border-radius: 12px;
   text-decoration: none;
+  transition: background 0.3s;
   font-weight: bold;
-  margin-left: 10px;
-  transition: 0.3s;
-  cursor: pointer;
+}
+.get-script {
+  background: lightgray;
+  color: #000;
+}
+.get-script:hover {
+  background: #ddd;
+}
+.showcase {
+  background: #ff4d4d;
+  color: #fff;
 }
 .showcase:hover {
-  background: darkred;
+  background: #e60000;
 }
-.showcase:focus,
-.showcase:active {
-  outline: none;
-  box-shadow: none;
+
+/* No results */
+.no-results {
+  color: #bbb;
+  font-size: 1.1rem;
+  margin: 20px 0;
 }

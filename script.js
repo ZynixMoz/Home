@@ -1,8 +1,11 @@
-// Play click sound when "Get Script" buttons are clicked
-document.querySelectorAll('.get-script').forEach(button => {
+// Play click sound when "Get Script" or "Showcase" buttons are clicked
+document.querySelectorAll('.get-script, .showcase').forEach(button => {
   button.addEventListener('click', () => {
-    let audio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/15/audio_5f04eab3f4.mp3?filename=click-124467.mp3');
-    audio.volume = 0.4;
+    let audio = new Audio('settings/click.mp3');
+    audio.volume = 0.5;
     audio.play();
   });
 });
+
+// 🚫 Disable right-click / hold menu
+document.addEventListener('contextmenu', event => event.preventDefault());

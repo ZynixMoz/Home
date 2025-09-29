@@ -1,4 +1,4 @@
-// ===== Click Sound =====
+// ===== CLICK SOUND =====
 document.querySelectorAll('.get-script, .showcase').forEach(button => {
   button.addEventListener('click', () => {
     let audio = new Audio('settings/click.mp3');
@@ -7,10 +7,10 @@ document.querySelectorAll('.get-script, .showcase').forEach(button => {
   });
 });
 
-// 🚫 Disable right-click
+// ===== DISABLE RIGHT-CLICK =====
 document.addEventListener('contextmenu', event => event.preventDefault());
 
-// ===== Search Functionality =====
+// ===== SEARCH FUNCTIONALITY =====
 const searchInput = document.getElementById('searchInput');
 const cards = Array.from(document.querySelectorAll('.card'));
 const noResults = document.getElementById('noResults');
@@ -48,19 +48,21 @@ searchInput.addEventListener('keydown', e => {
   }
 });
 
-// ===== Scroll Reveal =====
+// ===== SCROLL REVEAL =====
 const animatedCards = document.querySelectorAll('.animate');
 function showOnScroll() {
   const triggerBottom = window.innerHeight * 0.85;
   animatedCards.forEach(card => {
     const cardTop = card.getBoundingClientRect().top;
-    if (cardTop < triggerBottom) card.classList.add('show');
+    if (cardTop < triggerBottom) {
+      card.classList.add('show');
+    }
   });
 }
 window.addEventListener('scroll', showOnScroll);
 window.addEventListener('load', showOnScroll);
 
-// ===== Particle Background =====
+// ===== PARTICLE BACKGROUND =====
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 let particlesArray;
@@ -97,19 +99,26 @@ class Particle {
 function initParticles() {
   particlesArray = [];
   let numberOfParticles = (canvas.width * canvas.height) / 15000;
-  for (let i = 0; i < numberOfParticles; i++) particlesArray.push(new Particle());
+  for (let i = 0; i < numberOfParticles; i++) {
+    particlesArray.push(new Particle());
+  }
 }
+
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particlesArray.forEach(p => { p.update(); p.draw(); });
+  particlesArray.forEach(p => {
+    p.update();
+    p.draw();
+  });
   requestAnimationFrame(animateParticles);
 }
 initParticles();
 animateParticles();
 
-// ===== Tab Switching =====
+// ===== TABS =====
 const tabButtons = document.querySelectorAll(".tab-button");
 const tabContents = document.querySelectorAll(".tab-content");
+
 tabButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     tabButtons.forEach(b => b.classList.remove("active"));
@@ -119,15 +128,19 @@ tabButtons.forEach(btn => {
   });
 });
 
-// ===== Favorites System =====
+// ===== FAVORITES SYSTEM =====
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 function toggleFavorite(e) {
   const card = e.target.closest(".card");
+  if (!card) return;
   const name = card.dataset.name;
 
-  if (favorites.includes(name)) favorites = favorites.filter(f => f !== name);
-  else favorites.push(name);
+  if (favorites.includes(name)) {
+    favorites = favorites.filter(f => f !== name);
+  } else {
+    favorites.push(name);
+  }
 
   localStorage.setItem("favorites", JSON.stringify(favorites));
   updateFavorites();
@@ -136,14 +149,18 @@ function toggleFavorite(e) {
 
 function updateFavorites() {
   const favList = document.getElementById("favoritesList");
+  if (!favList) return;
   favList.innerHTML = "";
+
   favorites.forEach(name => {
     const card = document.querySelector(`.card[data-name="${name}"]`);
     if (card) {
       const clone = card.cloneNode(true);
       const btn = clone.querySelector(".favorite-btn");
-      btn.addEventListener("click", toggleFavorite);
-      btn.innerHTML = `<img src="favon.png" style="width:20px;height:20px;">`;
+      if (btn) {
+        btn.textContent = "⭐";
+        btn.addEventListener("click", toggleFavorite);
+      }
       favList.appendChild(clone);
     }
   });
@@ -154,22 +171,22 @@ function updateFavoriteButtons() {
     const btn = card.querySelector(".favorite-btn");
     if (!btn) return;
     const name = card.dataset.name;
-    btn.innerHTML = favorites.includes(name)
-      ? `<img src="favon.png" style="width:20px;height:20px;">`
-      : `<img src="favoff.png" style="width:20px;height:20px;">`;
+    btn.textContent = favorites.includes(name) ? "⭐" : "❏";
   });
 }
 
-// Add favorite buttons to cards
+// Add favorite buttons to all cards
 document.querySelectorAll(".card").forEach(card => {
   const favBtn = document.createElement("div");
   favBtn.classList.add("favorite-btn");
-  favBtn.style.cursor = "pointer";
-  favBtn.innerHTML = `<img src="favoff.png" style="width:20px;height:20px;">`;
+  favBtn.textContent = "❏";
   card.appendChild(favBtn);
   favBtn.addEventListener("click", toggleFavorite);
 });
 
-// Initial load
-updateFavorites();
-updateFavoriteButtons();
+// Load favorites on page load
+window.addEventListener("load", () => {
+  favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  updateFavorites();
+  updateFavoriteButtons();
+});

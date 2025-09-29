@@ -1,89 +1,180 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Moz Scripts 📜</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<canvas id="particles"></canvas>
-
-<header>
-<img src="images/main.png" alt="Moz Scripts Logo" class="main-logo">
-<h1>Moz Scripts 📜</h1>
-</header>
-
-<div class="tabs">
-  <button class="tab-button active" data-tab="scriptsTab">Scripts</button>
-  <button class="tab-button" data-tab="favoritesTab">Favorites ⭐</button>
-</div>
-
-<section id="scriptsTab" class="tab-content active">
-  <div class="scripts">
-    <div class="search-wrap">
-      <input id="searchInput" type="search" placeholder="Search scripts..." aria-label="Search scripts">
-    </div>
-
-    <div class="card animate" data-name="Speedrun Timer">
-      <img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>Speedrun Timer ⚡</h2>
-      <p class="description">Track your speedruns with precision.</p>
-      <a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
-      <a href="https://jumpshare.com/s/NTxmsfAeoYN7SLwy4n9g" target="_blank" class="showcase">Showcase</a>
-    </div>
-
-    <div class="card animate" data-name="Coming Soon">
-      <img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>Coming Soon 👀</h2>
-      <p class="description">Soon.</p>
-      <a href="#" target="_blank" class="get-script">Coming Soon</a>
-      <a href="#" target="_blank" class="showcase">Coming Soon</a>
-    </div>
-
-    <div class="card animate" data-name="Coming Soon">
-      <img src="images/thumb3.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>Coming Soon 💸</h2>
-      <p class="description">Soon.</p>
-      <a href="#" target="_blank" class="get-script">Coming Soon</a>
-      <a href="#" target="_blank" class="showcase">Coming Soon</a>
-    </div>
-
-    <div class="card animate" data-name="Coming Soon">
-      <img src="images/thumb4.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>Coming Soon ⚡</h2>
-      <p class="description">Soon.</p>
-      <a href="#" target="_blank" class="get-script">Coming Soon</a>
-      <a href="#" target="_blank" class="showcase">Coming Soon</a>
-    </div>
-
-    <div class="card animate" data-name="Coming Soon">
-      <img src="images/thumb5.png" alt="Script Thumbnail" class="thumbnail">
-      <h2>Coming Soon 💀</h2>
-      <p class="description">Soon.</p>
-      <a href="#" target="_blank" class="get-script">Coming Soon</a>
-      <a href="#" target="_blank" class="showcase">Coming Soon</a>
-    </div>
-
-    <div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
-  </div>
-</section>
-
-<section id="favoritesTab" class="tab-content">
-  <div id="favoritesList"></div>
-  <div id="noFavorites" class="no-results" style="display:none;">No favorites yet.</div>
-</section>
-
-<div class="socials">
-  <a href="https://discord.gg/wchns7Bcnq" target="_blank" class="social help">Help?</a>
-</div>
-
-<script src="script.js"></script>
-<script>
-window.addEventListener("load", () => {
-  document.querySelector(".tab-content.active").style.display = "block";
-  document.querySelectorAll(".animate").forEach(el => el.classList.add("show"));
+// ===== CLICK SOUND =====
+document.querySelectorAll('.get-script, .showcase').forEach(button => {
+  button.addEventListener('click', () => {
+    let audio = new Audio('settings/click.mp3');
+    audio.volume = 0.5;
+    audio.play();
+  });
 });
-</script>
-</body>
-</html>
+
+// ===== DISABLE RIGHT-CLICK =====
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// ===== SEARCH FUNCTIONALITY =====
+const searchInput = document.getElementById('searchInput');
+const cards = Array.from(document.querySelectorAll('.card'));
+const noResults = document.getElementById('noResults');
+
+function filterCards(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) {
+    cards.forEach(c => c.style.display = '');
+    noResults.style.display = 'none';
+    return;
+  }
+
+  let visibleCount = 0;
+  cards.forEach(card => {
+    const name = (card.getAttribute('data-name') || '').toLowerCase();
+    const desc = (card.querySelector('.description')?.textContent || '').toLowerCase();
+    if ((name + " " + desc).includes(q)) {
+      card.style.display = '';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  noResults.style.display = visibleCount === 0 ? '' : 'none';
+}
+
+searchInput.addEventListener('input', e => filterCards(e.target.value));
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    searchInput.value = '';
+    filterCards('');
+    searchInput.blur();
+  }
+});
+
+// ===== SCROLL REVEAL =====
+const animatedCards = document.querySelectorAll('.animate');
+function showOnScroll() {
+  const triggerBottom = window.innerHeight * 0.85;
+  animatedCards.forEach(card => {
+    const cardTop = card.getBoundingClientRect().top;
+    if (cardTop < triggerBottom) {
+      card.classList.add('show');
+    }
+  });
+}
+window.addEventListener('scroll', showOnScroll);
+window.addEventListener('load', showOnScroll);
+
+// ===== PARTICLE BACKGROUND =====
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particlesArray;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+  draw() {
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function initParticles() {
+  particlesArray = [];
+  let numberOfParticles = (canvas.width * canvas.height) / 15000;
+  for (let i = 0; i < numberOfParticles; i++) {
+    particlesArray.push(new Particle());
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particlesArray.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animateParticles);
+}
+initParticles();
+animateParticles();
+
+// ===== TABS =====
+const tabButtons = document.querySelectorAll(".tab-button");
+const tabContents = document.querySelectorAll(".tab-content");
+
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    tabButtons.forEach(b => b.classList.remove("active"));
+    tabContents.forEach(c => c.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+
+    if (btn.dataset.tab === "favoritesTab") {
+      updateFavoritesTab();
+    }
+  });
+});
+
+// ===== FAVORITES SYSTEM =====
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+function toggleFavorite(e) {
+  const card = e.target.closest(".card");
+  if (!card) return;
+  const name = card.dataset.name;
+
+  if (favorites.includes(name)) {
+    favorites = favorites.filter(f => f !== name);
+  } else {
+    favorites.push(name);
+  }
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+  updateFavoriteButtons();
+  updateFavoritesTab();
+}
+
+function updateFavoritesTab() {
+  const favList = document.getElementById("favoritesList");
+  favList.innerHTML = "";
+  const noFavs = document.getElementById("noFavorites");
+
+  if (favorites.length === 0) {
+    noFavs.style.display = '';
+    return;
+  } else {
+    noFavs.style.display = 'none';
+  }
+
+  favorites.forEach(name => {
+    const originalCard = document.querySelector(`.card[data-name="${name}"]`);
+    if (originalCard) {
+      const clone = originalCard.cloneNode(true);
+      clone.classList.add("animate");
+      const btn = clone.querySelector(".favorite-btn");
+      if (btn) {
+        btn.textContent = "⭐";
+        btn.removeEventListener("click", toggleFavorite);
+        btn.addEventListener("click", toggleFavorite);
+      }
+      favList.appendChild(clone);
+    }
+  });
+
+  show

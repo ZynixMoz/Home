@@ -93,7 +93,7 @@ h1 {
 /* Thumbnails */
 .thumbnail {
   width: 100%;
-  max-width: 500px;   /* cap width */
+  max-width: 500px;
   height: auto;
   border-radius: 15px;
   margin-bottom: 15px;
@@ -151,9 +151,7 @@ a {
   margin: 20px 0;
 }
 
-/* ===== Animations ===== */
-
-/* Fade + slide up when cards load */
+/* Animations */
 .animate {
   opacity: 0;
   transform: translateY(30px);
@@ -163,39 +161,18 @@ a {
   opacity: 1;
   transform: translateY(0);
 }
-/* ==== Particle Canvas ==== */
+
+/* Particle Canvas */
 #particles {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1; /* stay in background */
-  background: #000; /* fallback */
+  z-index: -1;
+  background: #000;
 }
 
-/* ==== Social Buttons ==== */
-.socials {
-  margin: 10px 0 20px;
-}
-.social {
-  display: inline-block;
-  margin: 0 8px;
-  padding: 8px 14px;
-  border-radius: 12px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #fff;
-  transition: all 0.3s ease;
-}
-.social:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
-}
-.discord { background: #5865F2; }
-.youtube { background: #FF0000; }
-.tiktok { background: #111; border: 1px solid #fff; }
-.roblox { background: #00A2FF; }
 /* Tabs */
 .tabs {
   display: flex;
@@ -203,7 +180,6 @@ a {
   margin: 20px 0;
   gap: 10px;
 }
-
 .tab-button {
   padding: 10px 20px;
   border: none;
@@ -214,43 +190,21 @@ a {
   font-size: 16px;
   transition: background 0.3s, transform 0.2s;
 }
-
 .tab-button.active {
   background: linear-gradient(90deg, #4facfe, #00f2fe);
   box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
 }
-
 .tab-button:hover {
   transform: scale(1.05);
 }
-/* Remove button focus outline */
 button:focus {
   outline: none;
 }
-
-/* Tabs & favorites styles */
-.tabs {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-  gap: 10px;
+.tab-content {
+  display: none;
 }
-.tab-button {
-  padding: 10px 20px;
-  border: none;
-  background: #222;
-  color: white;
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: background 0.3s, transform 0.2s;
-}
-.tab-button.active {
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
-  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
-}
-.tab-button:hover {
-  transform: scale(1.05);
+.tab-content.active {
+  display: block;
 }
 .favorite-btn {
   position: absolute;
@@ -274,34 +228,21 @@ button:focus {
   color: gold;
   text-shadow: 0 0 15px gold;
 }
-.tab-content {
-  display: none;
-}
-.tab-content.active {
-  display: block;
-}
+
+/* Remove button focus highlight globally */
 *:focus {
   outline: none !important;
   box-shadow: none !important;
 }
-button, .favorite-btn {
-  outline: none;
-}
 
-button:focus, .favorite-btn:focus {
-  outline: none;
-  box-shadow: none;
+/* FIX: Force tabs and animations to work */
+.tab-content {
+  display: none !important;
 }
-
-/* ==== FIX: Remove click/focus highlight ==== */
-button:focus,
-button:focus-visible,
-a:focus,
-a:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
+.tab-content.active {
+  display: block !important;
 }
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
+.animate.show {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }

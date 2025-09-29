@@ -61,7 +61,7 @@ h1 {
 
 /* Cards */
 .card {
-  background: rgba(255,255,255,0.03);
+  background: rgba(200,200,200,0.2);
   border-radius: 20px;
   padding: 20px;
   margin: 20px auto;

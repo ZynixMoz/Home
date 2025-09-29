@@ -49,7 +49,8 @@ h1 {
 }
 #searchInput:focus {
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  transform: scale(1.01);
 }
 #searchInput::placeholder {
   color: #aaa;
@@ -71,7 +72,7 @@ h1 {
 }
 .card:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
 }
 
 /* Titles */
@@ -89,42 +90,10 @@ h1 {
   margin-bottom: 15px;
 }
 
-/* Buttons */
-.get-script,
-.showcase {
-  display: inline-block;
-  margin: 10px 5px;
-  padding: 10px 20px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: background 0.3s;
-  font-weight: bold;
-}
-.get-script {
-  background: lightgray;
-  color: #000;
-}
-.get-script:hover {
-  background: #ddd;
-}
-.showcase {
-  background: #ff4d4d;
-  color: #fff;
-}
-.showcase:hover {
-  background: #e60000;
-}
-
-/* No results */
-.no-results {
-  color: #bbb;
-  font-size: 1.1rem;
-  margin: 20px 0;
-}
 /* Thumbnails */
 .thumbnail {
   width: 100%;
-  max-width: 500px; /* limit size */
+  max-width: 500px;   /* cap width */
   height: auto;
   border-radius: 15px;
   margin-bottom: 15px;
@@ -135,11 +104,62 @@ h1 {
   transform: scale(1.03);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
 }
-/*  Remove ugly blue highlight on buttons/links */
+
+/* Buttons */
+.get-script,
+.showcase {
+  display: inline-block;
+  margin: 10px 5px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  font-weight: bold;
+}
+.get-script {
+  background: lightgray;
+  color: #000;
+}
+.get-script:hover {
+  background: #ddd;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+  transform: scale(1.05);
+}
+.showcase {
+  background: #ff4d4d;
+  color: #fff;
+}
+.showcase:hover {
+  background: #e60000;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+  transform: scale(1.05);
+}
+
+/* Remove blue highlight */
 .get-script, 
 .showcase, 
 button, 
 a {
   outline: none !important;
   box-shadow: none !important;
+}
+
+/* No results */
+.no-results {
+  color: #bbb;
+  font-size: 1.1rem;
+  margin: 20px 0;
+}
+
+/* ===== Animations ===== */
+
+/* Fade + slide up when cards load */
+.animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+.animate.show {
+  opacity: 1;
+  transform: translateY(0);
 }

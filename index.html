@@ -21,6 +21,10 @@
 
 <section id="scriptsTab" class="tab-content active">
 <div class="scripts">
+<div class="search-wrap">
+<input id="searchInput" type="search" placeholder="Search scripts..." aria-label="Search scripts">
+</div>
+
 <div class="card animate" data-name="Speedrun Timer">
 <img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
 <h2>Speedrun Timer ⚡</h2>
@@ -33,32 +37,50 @@
 <img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
 <h2>Coming Soon 👀</h2>
 <p class="description">Soon.</p>
-<a href="#" target="_blank" class="get-script">Coming Soon</a>
-<a href="#" target="_blank" class="showcase">Coming Soon</a>
+<a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="get-script">Coming Soon</a>
+<a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="showcase">Coming Soon</a>
 </div>
+
+<div class="card animate" data-name="Coming Soon">
+<img src="images/thumb3.png" alt="Script Thumbnail" class="thumbnail">
+<h2>Coming Soon 💸</h2>
+<p class="description">Soon.</p>
+<a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="get-script">Coming Soon</a>
+<a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="showcase">Coming Soon</a>
 </div>
+
+<div class="card animate" data-name="Coming Soon">
+<img src="images/thumb4.png" alt="Script Thumbnail" class="thumbnail">
+<h2>Coming Soon ⚡</h2>
+<p class="description">Soon.</p>
+<a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="get-script">Coming Soon</a>
+<a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="showcase">Coming Soon</a>
+</div>
+
+<div class="card animate" data-name="Coming Soon">
+<img src="images/thumb5.png" alt="Script Thumbnail" class="thumbnail">
+<h2>Coming Soon 💀</h2>
+<p class="description">Soon.</p>
+<a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="get-script">Coming Soon</a>
+<a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="showcase">Coming Soon</a>
+</div>
+
 <div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
+</div>
 </section>
 
-<section id="favoritesTab" class="tab-content">
-<div id="favoritesList"></div>
-</section>
+<section id="favoritesTab" class="tab-content"></section>
 
 <div class="socials">
 <a href="https://discord.gg/wchns7Bcnq" target="_blank" class="social help">Help?</a>
 </div>
 
+<script src="script.js"></script>
 <script>
-const tabs = document.querySelectorAll(".tab-button");
-const contents = document.querySelectorAll(".tab-content");
-
-tabs.forEach(tab => {
-  tab.addEventListener("click", () => {
-    tabs.forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-    contents.forEach(content => content.classList.remove("active"));
-    document.getElementById(tab.dataset.tab).classList.add("active");
-  });
+window.addEventListener("load", () => {
+  // Force showing first tab content and trigger animations
+  document.querySelector(".tab-content.active").style.display = "block";
+  document.querySelectorAll(".animate").forEach(el => el.classList.add("show"));
 });
 </script>
 </body>

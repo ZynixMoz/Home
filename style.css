@@ -280,3 +280,15 @@ button:focus {
 .tab-content.active {
   display: block;
 }
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+button, .favorite-btn {
+  outline: none;
+}
+
+button:focus, .favorite-btn:focus {
+  outline: none;
+  box-shadow: none;
+}

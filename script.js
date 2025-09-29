@@ -25,7 +25,6 @@ function filterCards(query) {
 
   let visibleCount = 0;
   cards.forEach(card => {
-    // search in data-name + description text
     const name = (card.getAttribute('data-name') || '').toLowerCase();
     const desc = (card.querySelector('.description')?.textContent || '').toLowerCase();
     const combined = name + ' ' + desc;
@@ -40,12 +39,10 @@ function filterCards(query) {
   noResults.style.display = visibleCount === 0 ? '' : 'none';
 }
 
-// live search
 searchInput.addEventListener('input', e => {
   filterCards(e.target.value);
 });
 
-// optional: support pressing Escape to clear
 searchInput.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     searchInput.value = '';
@@ -53,3 +50,17 @@ searchInput.addEventListener('keydown', e => {
     searchInput.blur();
   }
 });
+
+// ===== Scroll reveal animation =====
+const animatedCards = document.querySelectorAll('.animate');
+function showOnScroll() {
+  const triggerBottom = window.innerHeight * 0.85;
+  animatedCards.forEach(card => {
+    const cardTop = card.getBoundingClientRect().top;
+    if (cardTop < triggerBottom) {
+      card.classList.add('show');
+    }
+  });
+}
+window.addEventListener('scroll', showOnScroll);
+window.addEventListener('load', showOnScroll);

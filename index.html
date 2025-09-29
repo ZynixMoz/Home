@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Moz Scripts 📜</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -15,8 +15,13 @@
 
   <!-- Scripts Section -->
   <section class="scripts">
+    <!-- Search bar -->
+    <div class="search-wrap">
+      <input id="searchInput" type="search" placeholder="Search scripts..." aria-label="Search scripts">
+    </div>
+
     <!-- Script 1 -->
-    <div class="card">
+    <div class="card" data-name="Speedrun Timer Speedrun Timer ⚡">
       <img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
       <p class="description">Speedrun Timer ⚡</p>
       <a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
@@ -24,7 +29,7 @@
     </div>
 
     <!-- Script 2 -->
-    <div class="card">
+    <div class="card" data-name="ESP wallhack ESP Wallhack">
       <img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
       <p class="description">ESP wallhack 👀</p>
       <a href="https://your-script-link.com/esp" target="_blank" class="get-script">Get Script</a>
@@ -32,7 +37,7 @@
     </div>
 
     <!-- Script 3 -->
-    <div class="card">
+    <div class="card" data-name="Auto farm cash Auto Farm">
       <img src="images/thumb3.png" alt="Script Thumbnail" class="thumbnail">
       <p class="description">Auto farm cash 💸</p>
       <a href="https://your-script-link.com/autofarm" target="_blank" class="get-script">Get Script</a>
@@ -40,7 +45,7 @@
     </div>
 
     <!-- Script 4 -->
-    <div class="card">
+    <div class="card" data-name="Teleport anywhere Teleport">
       <img src="images/thumb4.png" alt="Script Thumbnail" class="thumbnail">
       <p class="description">Teleport anywhere instantly ⚡</p>
       <a href="https://your-script-link.com/teleport" target="_blank" class="get-script">Get Script</a>
@@ -48,12 +53,15 @@
     </div>
 
     <!-- Script 5 -->
-    <div class="card">
+    <div class="card" data-name="Godmode invincibility Godmode">
       <img src="images/thumb5.png" alt="Script Thumbnail" class="thumbnail">
       <p class="description">Godmode invincibility 💀</p>
       <a href="https://your-script-link.com/godmode" target="_blank" class="get-script">Get Script</a>
       <a href="https://your-showcase-link.com/godmode" target="_blank" class="showcase">Showcase</a>
     </div>
+
+    <!-- No results -->
+    <div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
   </section>
 
   <script src="script.js"></script>

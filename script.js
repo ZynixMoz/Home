@@ -155,34 +155,63 @@ function updateFavorites() {
     }
   });
 }
-
 // Tab switching
-scriptsTab.addEventListener("click", () => {
-  scriptsTab.classList.add("active");
-  favoritesTab.classList.remove("active");
-  scriptsSection.style.display = "block";
-  favoritesSection.style.display = "none";
+const tabButtons = document.querySelectorAll(".tab-button");
+const tabContents = document.querySelectorAll(".tab-content");
+
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    tabButtons.forEach(b => b.classList.remove("active"));
+    tabContents.forEach(c => c.classList.remove("active"));
+
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+  });
 });
 
-favoritesTab.addEventListener("click", () => {
-  favoritesTab.classList.add("active");
-  scriptsTab.classList.remove("active");
-  scriptsSection.style.display = "none";
-  favoritesSection.style.display = "block";
-  updateFavorites();
-});
+// Favorite system
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-// Favorite button events
-document.querySelectorAll(".favorite-btn").forEach(btn => {
-  btn.addEventListener("click", () => toggleFavorite(btn));
-});
+function updateFavorites() {
+  const favList = document.getElementById("favoritesList");
+  favList.innerHTML = "";
 
-// On page load — mark favorites
-document.querySelectorAll(".card").forEach(card => {
-  const name = card.dataset.name;
-  if (favorites.includes(name)) {
-    card.querySelector(".favorite-btn").classList.add("active");
+  favorites.forEach(cardHTML => {
+    const div = document.createElement("div");
+    div.innerHTML = cardHTML;
+    favList.appendChild(div.firstElementChild);
+  });
+
+  document.querySelectorAll(".favorite-btn").forEach(btn => {
+    btn.addEventListener("click", toggleFavorite);
+  });
+}
+
+function toggleFavorite(e) {
+  const card = e.target.closest(".card");
+  const cardHTML = card.outerHTML;
+  const index = favorites.indexOf(cardHTML);
+
+  if (index > -1) {
+    favorites.splice(index, 1);
+    e.target.classList.remove("active");
+  } else {
+    favorites.push(cardHTML);
+    e.target.classList.add("active");
   }
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+  updateFavorites();
+}
+
+// Add favorite buttons to all cards
+document.querySelectorAll(".card").forEach(card => {
+  const favBtn = document.createElement("div");
+  favBtn.classList.add("favorite-btn");
+  favBtn.innerHTML = "⭐";
+  card.appendChild(favBtn);
+
+  favBtn.addEventListener("click", toggleFavorite);
 });
 
 updateFavorites();

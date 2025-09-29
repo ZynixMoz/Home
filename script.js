@@ -199,3 +199,34 @@ window.addEventListener("load", () => {
   updateFavoriteButtons();
   updateFavoritesTab();
 });
+// ===== COLOR THEME SWITCHER =====
+const logo = document.querySelector('.main-logo');
+const themeNameLabel = document.getElementById('theme-name');
+
+const themes = [
+  { name: "🔴 Red", bg: "#ff0000", cardBg: "rgba(255,255,255,0.03)", text: "#fff" },
+  { name: "🟠 Orange", bg: "#ff7f00", cardBg: "rgba(255,255,255,0.03)", text: "#fff" },
+  { name: "⚪ White", bg: "#ffffff", cardBg: "rgba(0,0,0,0.05)", text: "#000" },
+  { name: "⚫ Black", bg: "#000000", cardBg: "rgba(255,255,255,0.03)", text: "#fff" },
+  { name: "🩶 Dark Gray", bg: "#111111", cardBg: "rgba(255,255,255,0.02)", text: "#ddd" }
+];
+
+let themeIndex = 0;
+
+function applyTheme(theme) {
+  document.body.style.background = theme.bg;
+  document.body.style.animation = "none"; // no animation for now
+  document.documentElement.style.setProperty("--card-bg", theme.cardBg);
+  document.documentElement.style.setProperty("--text-color", theme.text);
+
+  if (themeNameLabel) themeNameLabel.textContent = theme.name + " Mode";
+}
+
+// Cycle themes when clicking logo
+logo.addEventListener('click', () => {
+  themeIndex = (themeIndex + 1) % themes.length;
+  applyTheme(themes[themeIndex]);
+});
+
+// Apply default theme on load
+applyTheme(themes[themeIndex]);

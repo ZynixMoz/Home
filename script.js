@@ -27,7 +27,8 @@ function filterCards(query) {
   cards.forEach(card => {
     const name = (card.getAttribute('data-name') || '').toLowerCase();
     const desc = (card.querySelector('.description')?.textContent || '').toLowerCase();
-    if ((name + " " + desc).includes(q)) {
+    const combined = name + ' ' + desc;
+    if (combined.includes(q)) {
       card.style.display = '';
       visibleCount++;
     } else {
@@ -152,14 +153,14 @@ function toggleFavorite(e) {
 
 function updateFavoritesTab() {
   const favList = document.getElementById("favoritesList");
+  const noFav = document.getElementById("noFavorites");
   favList.innerHTML = "";
-  const noFavs = document.getElementById("noFavorites");
 
   if (favorites.length === 0) {
-    noFavs.style.display = '';
+    noFav.style.display = "block";
     return;
   } else {
-    noFavs.style.display = 'none';
+    noFav.style.display = "none";
   }
 
   favorites.forEach(name => {
@@ -170,11 +171,31 @@ function updateFavoritesTab() {
       const btn = clone.querySelector(".favorite-btn");
       if (btn) {
         btn.textContent = "⭐";
-        btn.removeEventListener("click", toggleFavorite);
-        btn.addEventListener("click", toggleFavorite);
+        btn.onclick = toggleFavorite;
       }
       favList.appendChild(clone);
     }
   });
 
-  show
+  showOnScroll();
+}
+
+function updateFavoriteButtons() {
+  document.querySelectorAll(".card").forEach(card => {
+    let btn = card.querySelector(".favorite-btn");
+    if (!btn) {
+      btn = document.createElement("div");
+      btn.classList.add("favorite-btn");
+      card.appendChild(btn);
+    }
+    const name = card.dataset.name;
+    btn.textContent = favorites.includes(name) ? "⭐" : "❏";
+    btn.onclick = toggleFavorite;
+  });
+}
+
+window.addEventListener("load", () => {
+  favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  updateFavoriteButtons();
+  updateFavoritesTab();
+});

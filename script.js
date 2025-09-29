@@ -7,10 +7,10 @@ document.querySelectorAll('.get-script, .showcase').forEach(button => {
   });
 });
 
-// 🚫 Disable right-click / hold menu
+// 🚫 Disable right-click
 document.addEventListener('contextmenu', event => event.preventDefault());
 
-// ===== Search functionality (case-insensitive) =====
+// ===== Search functionality =====
 const searchInput = document.getElementById('searchInput');
 const cards = Array.from(document.querySelectorAll('.card'));
 const noResults = document.getElementById('noResults');
@@ -64,6 +64,7 @@ function showOnScroll() {
 }
 window.addEventListener('scroll', showOnScroll);
 window.addEventListener('load', showOnScroll);
+
 // ===== Particle Background =====
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
@@ -87,7 +88,6 @@ class Particle {
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
-
     if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
     if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
   }
@@ -106,7 +106,6 @@ function initParticles() {
     particlesArray.push(new Particle());
   }
 }
-
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particlesArray.forEach(p => {
@@ -115,18 +114,26 @@ function animateParticles() {
   });
   requestAnimationFrame(animateParticles);
 }
-
 initParticles();
 animateParticles();
-const scriptsTab = document.getElementById("scriptsTab");
-const favoritesTab = document.getElementById("favoritesTab");
-const scriptsSection = document.getElementById("scriptsSection");
-const favoritesSection = document.getElementById("favoritesSection");
-const favoritesList = document.getElementById("favoritesList");
 
+// ===== Tab Switching =====
+const tabButtons = document.querySelectorAll(".tab-button");
+const tabContents = document.querySelectorAll(".tab-content");
+
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    tabButtons.forEach(b => b.classList.remove("active"));
+    tabContents.forEach(c => c.classList.remove("active"));
+
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+  });
+});
+
+// ===== Favorites system =====
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-// Toggle favorite
 function toggleFavorite(btn) {
   const card = btn.closest(".card");
   const name = card.dataset.name;
@@ -143,75 +150,34 @@ function toggleFavorite(btn) {
   updateFavorites();
 }
 
-// Update favorites list
-function updateFavorites() {
-  favoritesList.innerHTML = "";
-  favorites.forEach(name => {
-    const card = document.querySelector(`.card[data-name="${name}"]`);
-    if (card) {
-      const clone = card.cloneNode(true);
-      clone.querySelector(".favorite-btn").addEventListener("click", () => toggleFavorite(clone.querySelector(".favorite-btn")));
-      favoritesList.appendChild(clone);
-    }
-  });
-}
-// Tab switching
-const tabButtons = document.querySelectorAll(".tab-button");
-const tabContents = document.querySelectorAll(".tab-content");
-
-tabButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    tabButtons.forEach(b => b.classList.remove("active"));
-    tabContents.forEach(c => c.classList.remove("active"));
-
-    btn.classList.add("active");
-    document.getElementById(btn.dataset.tab).classList.add("active");
-  });
-});
-
-// Favorite system
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
 function updateFavorites() {
   const favList = document.getElementById("favoritesList");
   favList.innerHTML = "";
 
-  favorites.forEach(cardHTML => {
-    const div = document.createElement("div");
-    div.innerHTML = cardHTML;
-    favList.appendChild(div.firstElementChild);
-  });
-
-  document.querySelectorAll(".favorite-btn").forEach(btn => {
-    btn.addEventListener("click", toggleFavorite);
+  favorites.forEach(name => {
+    const card = document.querySelector(`.card[data-name="${name}"]`);
+    if (card) {
+      const clone = card.cloneNode(true);
+      const favBtn = clone.querySelector(".favorite-btn");
+      favBtn.addEventListener("click", () => toggleFavorite(favBtn));
+      favBtn.classList.add("active");
+      favList.appendChild(clone);
+    }
   });
 }
 
-function toggleFavorite(e) {
-  const card = e.target.closest(".card");
-  const cardHTML = card.outerHTML;
-  const index = favorites.indexOf(cardHTML);
-
-  if (index > -1) {
-    favorites.splice(index, 1);
-    e.target.classList.remove("active");
-  } else {
-    favorites.push(cardHTML);
-    e.target.classList.add("active");
-  }
-
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  updateFavorites();
-}
-
-// Add favorite buttons to all cards
 document.querySelectorAll(".card").forEach(card => {
   const favBtn = document.createElement("div");
   favBtn.classList.add("favorite-btn");
   favBtn.innerHTML = "⭐";
   card.appendChild(favBtn);
 
-  favBtn.addEventListener("click", toggleFavorite);
+  favBtn.addEventListener("click", () => toggleFavorite(favBtn));
+
+  // Mark favorite if already saved
+  if (favorites.includes(card.dataset.name)) {
+    favBtn.classList.add("active");
+  }
 });
 
 updateFavorites();

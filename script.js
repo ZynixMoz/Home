@@ -28,7 +28,7 @@ function filterCards(query) {
     const name = (card.getAttribute('data-name') || '').toLowerCase();
     const desc = (card.querySelector('.description')?.textContent || '').toLowerCase();
     const combined = name + ' ' + desc;
-    if (combined.indexOf(q) > -1) {
+    if (combined.includes(q)) {
       card.style.display = '';
       visibleCount++;
     } else {
@@ -143,13 +143,12 @@ function toggleFavorite(e) {
   }
 
   localStorage.setItem("favorites", JSON.stringify(favorites));
-  updateFavorites();
   updateFavoriteButtons();
+  updateFavoritesTab();
 }
 
-function updateFavorites() {
+function updateFavoritesTab() {
   const favList = document.getElementById("favoritesList");
-  if (!favList) return;
   favList.innerHTML = "";
 
   favorites.forEach(name => {
@@ -190,9 +189,9 @@ document.querySelectorAll(".card").forEach(card => {
   favBtn.addEventListener("click", toggleFavorite);
 });
 
-// Load favorites on page load
+// On page load: restore favorites
 window.addEventListener("load", () => {
   favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  updateFavorites();
   updateFavoriteButtons();
+  updateFavoritesTab();
 });

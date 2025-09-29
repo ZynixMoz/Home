@@ -199,54 +199,81 @@ window.addEventListener("load", () => {
   updateFavoriteButtons();
   updateFavoritesTab();
 });// ===== SEARCH HISTORY =====
-const searchHistoryEl = document.getElementById("searchHistory");
-let searchHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]");
+const searchInput = document.getElementById('searchInput');
+const noResults = document.getElementById('noResults');
+const searchHistoryContainer = document.createElement('div');
+searchHistoryContainer.id = "searchHistory";
+searchInput.parentElement.appendChild(searchHistoryContainer);
 
-function updateSearchHistoryUI() {
-  searchHistoryEl.innerHTML = "";
+let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+// Render search history
+function renderHistory() {
+  searchHistoryContainer.innerHTML = "";
   searchHistory.forEach(term => {
-    const btn = document.createElement("button");
-    btn.textContent = term;
-    btn.classList.add("history-item");
-    btn.onclick = () => {
+    const span = document.createElement("span");
+    span.textContent = term;
+    span.onclick = () => {
       searchInput.value = term;
       filterCards(term);
     };
-    searchHistoryEl.appendChild(btn);
+    searchHistoryContainer.appendChild(span);
   });
 }
 
-function addSearchHistory(term) {
-  term = term.trim();
-  if (!term) return;
-  if (!searchHistory.includes(term)) {
-    searchHistory.unshift(term);
-    if (searchHistory.length > 5) searchHistory.pop(); // keep last 5 searches
-    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-    updateSearchHistoryUI();
+// Filter function
+function filterCards(query) {
+  const q = query.trim().toLowerCase();
+  const cards = Array.from(document.querySelectorAll('.card'));
+  if (!q) {
+    cards.forEach(c => c.style.display = '');
+    noResults.style.display = 'none';
+    return;
   }
+
+  let visibleCount = 0;
+  cards.forEach(card => {
+    const name = (card.getAttribute('data-name') || '').toLowerCase();
+    const desc = (card.querySelector('.description')?.textContent || '').toLowerCase();
+    const combined = name + ' ' + desc;
+    if (combined.includes(q)) {
+      card.style.display = '';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  noResults.style.display = visibleCount === 0 ? '' : 'none';
 }
 
-updateSearchHistoryUI();
-
-// ===== SEARCH INPUT EVENTS =====
-searchInput.addEventListener("input", e => {
-  filterCards(e.target.value);
-});
-
-searchInput.addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    addSearchHistory(e.target.value);
-  }
-  if (e.key === "Escape") {
-    searchInput.value = "";
-    filterCards("");
-    searchInput.blur();
+// On input
+searchInput.addEventListener('input', e => {
+  const val = e.target.value;
+  filterCards(val);
+  if (val && !searchHistory.includes(val)) {
+    searchHistory.unshift(val); // add newest to front
+    if (searchHistory.length > 5) searchHistory.pop(); // limit 5
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+    renderHistory();
   }
 });
 
-// ===== RESET SEARCH =====
-document.getElementById("resetSearch").addEventListener("click", () => {
-  searchInput.value = "";
+// Reset history button
+const resetButton = document.createElement("button");
+resetButton.id = "resetButton";
+resetButton.innerText = "Clear History";
+searchInput.parentElement.appendChild(resetButton);
+
+resetButton.addEventListener("click", () => {
+  searchHistory = [];
+  localStorage.removeItem("searchHistory");
+  renderHistory();
   filterCards("");
+  searchInput.value = "";
+});
+
+// Render on load
+window.addEventListener("load", () => {
+  renderHistory();
 });

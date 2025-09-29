@@ -198,21 +198,19 @@ window.addEventListener("load", () => {
   favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   updateFavoriteButtons();
   updateFavoritesTab();
-});const startDate = new Date("2025-09-01T00:00:00Z");
+});const startDate = new Date("2025-09-17T00:00:00Z");
 
-const cardViewSettings = {
-  "Speedrun Timer": { base: 1600, interval: 60 },
-  "Coming Soon": { base: 0, boost: true },
-};
-
-function getViewsForCard(settings, seconds) {
-  if (settings.boost) {
-    if (seconds < 5) return 0;
-    if (seconds < 60) return 100;
-    return 1000 + Math.floor((seconds - 60) / 120);
-  } else {
-    return settings.base + Math.floor(seconds / settings.interval);
+function getViewsForCard(name, seconds) {
+  if (name.toLowerCase() === "coming soon") {
+    return 0; // all coming soon cards = 0 views
   }
+
+  // Randomize per card (different growth for each)
+  const seed = name.length * 999; 
+  const base = (seed % 1200) + 200; // 200 - 1400 base
+  const interval = (seed % 50) + 30; // +1 every 30–80 seconds
+
+  return base + Math.floor(seconds / interval);
 }
 
 function updateViews() {
@@ -223,10 +221,9 @@ function updateViews() {
     const name = card.getAttribute("data-name");
     const viewsEl = card.querySelector(".views-count");
 
-    const settings = cardViewSettings[name];
-    if (!settings) return;
+    if (!viewsEl) return;
 
-    const views = getViewsForCard(settings, seconds);
+    const views = getViewsForCard(name, seconds);
     viewsEl.textContent = views.toLocaleString();
   });
 }

@@ -49,10 +49,9 @@ searchInput.addEventListener('keydown', e => {
 });
 
 // ===== SCROLL REVEAL =====
-const animatedCards = document.querySelectorAll('.animate');
 function showOnScroll() {
   const triggerBottom = window.innerHeight * 0.85;
-  animatedCards.forEach(card => {
+  document.querySelectorAll('.animate').forEach(card => {
     const cardTop = card.getBoundingClientRect().top;
     if (cardTop < triggerBottom) card.classList.add('show');
   });
@@ -122,6 +121,7 @@ tabButtons.forEach(btn => {
     tabContents.forEach(c => c.classList.remove("active"));
     btn.classList.add("active");
     document.getElementById(btn.dataset.tab).classList.add("active");
+    showOnScroll(); // trigger animations for new tab content
   });
 });
 
@@ -153,6 +153,7 @@ function updateFavorites() {
     const card = document.querySelector(`.card[data-name="${name}"]`);
     if (card) {
       const clone = card.cloneNode(true);
+      clone.classList.add("animate"); // keep animation for cloned cards
       const btn = clone.querySelector(".favorite-btn");
       if (btn) {
         btn.textContent = "⭐";
@@ -161,6 +162,8 @@ function updateFavorites() {
       favList.appendChild(clone);
     }
   });
+
+  showOnScroll(); // run animation after favorites update
 }
 
 function updateFavoriteButtons() {
@@ -172,6 +175,7 @@ function updateFavoriteButtons() {
   });
 }
 
+// Add favorite buttons to all cards
 document.querySelectorAll(".card").forEach(card => {
   const favBtn = document.createElement("div");
   favBtn.classList.add("favorite-btn");

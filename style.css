@@ -7,65 +7,14 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none; /* 🔒 disables text/image selection */
+  user-select: none; /* 🔒 disables highlight */
+  -webkit-tap-highlight-color: transparent; /* 🔥 removes blue tap highlight */
+  outline: none; /* removes outline */
 }
 
-body {
-  background: black;
-  color: white;
-  text-align: center;
-  min-height: 100vh;
-  overflow-y: scroll; /* ✅ enable scrolling */
-}
-
-/* Header */
-header {
-  padding: 20px;
-}
-header .main-logo {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-}
-header h1 {
-  margin-top: 10px;
-  font-size: 3rem;
-  letter-spacing: 2px;
-}
-
-/* Scripts Section */
-.scripts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  margin: 40px 0;
-}
-
-/* Card */
-.card {
-  background: rgba(255,255,255,0.05);
-  border-radius: 20px;
-  width: 80%;
-  max-width: 900px;
-  padding: 20px;
-  box-shadow: 0 0 20px rgba(255,255,255,0.1);
-  transition: transform 0.2s ease;
-}
-.card:hover {
-  transform: scale(1.02);
-}
-
-.thumbnail {
-  width: 100%;
-  max-width: 1000px;
-  border-radius: 12px;
-}
-
-.description {
-  margin: 15px 0;
-  font-size: 1.1rem;
-  color: #ccc;
+a, button {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Get Script Button */
@@ -78,7 +27,13 @@ header h1 {
   text-decoration: none;
   font-weight: bold;
   transition: 0.3s;
+  cursor: pointer;
 }
 .get-script:hover {
   background: white;
+}
+.get-script:focus,
+.get-script:active {
+  outline: none;
+  box-shadow: none; /* 🧼 no glow/blue border */
 }

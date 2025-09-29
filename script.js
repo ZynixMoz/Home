@@ -1,4 +1,4 @@
-// ===== Click Sounds =====
+// ===== CLICK SOUND =====
 document.querySelectorAll('.get-script, .showcase').forEach(button => {
   button.addEventListener('click', () => {
     let audio = new Audio('settings/click.mp3');
@@ -7,10 +7,10 @@ document.querySelectorAll('.get-script, .showcase').forEach(button => {
   });
 });
 
-// ===== Disable Right‑Click =====
+// ===== DISABLE RIGHT-CLICK =====
 document.addEventListener('contextmenu', event => event.preventDefault());
 
-// ===== Search Functionality =====
+// ===== SEARCH FUNCTIONALITY =====
 const searchInput = document.getElementById('searchInput');
 const cards = Array.from(document.querySelectorAll('.card'));
 const noResults = document.getElementById('noResults');
@@ -39,9 +39,7 @@ function filterCards(query) {
   noResults.style.display = visibleCount === 0 ? '' : 'none';
 }
 
-searchInput.addEventListener('input', e => {
-  filterCards(e.target.value);
-});
+searchInput.addEventListener('input', e => filterCards(e.target.value));
 searchInput.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     searchInput.value = '';
@@ -50,7 +48,7 @@ searchInput.addEventListener('keydown', e => {
   }
 });
 
-// ===== Scroll Reveal Animation =====
+// ===== SCROLL REVEAL =====
 const animatedCards = document.querySelectorAll('.animate');
 function showOnScroll() {
   const triggerBottom = window.innerHeight * 0.85;
@@ -64,7 +62,7 @@ function showOnScroll() {
 window.addEventListener('scroll', showOnScroll);
 window.addEventListener('load', showOnScroll);
 
-// ===== Particle Background =====
+// ===== PARTICLE BACKGROUND =====
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 let particlesArray;
@@ -105,6 +103,7 @@ function initParticles() {
     particlesArray.push(new Particle());
   }
 }
+
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particlesArray.forEach(p => {
@@ -116,9 +115,10 @@ function animateParticles() {
 initParticles();
 animateParticles();
 
-// ===== Tab Switching =====
+// ===== TABS =====
 const tabButtons = document.querySelectorAll(".tab-button");
 const tabContents = document.querySelectorAll(".tab-content");
+
 tabButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     tabButtons.forEach(b => b.classList.remove("active"));
@@ -128,7 +128,7 @@ tabButtons.forEach(btn => {
   });
 });
 
-// ===== Favorites System =====
+// ===== FAVORITES SYSTEM =====
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 function toggleFavorite(e) {
@@ -184,6 +184,9 @@ document.querySelectorAll(".card").forEach(card => {
   favBtn.addEventListener("click", toggleFavorite);
 });
 
-// Initial load
-updateFavorites();
-updateFavoriteButtons();
+// Load favorites on page load
+window.addEventListener("load", () => {
+  favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  updateFavorites();
+  updateFavoriteButtons();
+});

@@ -1,4 +1,4 @@
-// ===== Click sound for buttons =====
+// ===== Click Sounds =====
 document.querySelectorAll('.get-script, .showcase').forEach(button => {
   button.addEventListener('click', () => {
     let audio = new Audio('settings/click.mp3');
@@ -7,10 +7,10 @@ document.querySelectorAll('.get-script, .showcase').forEach(button => {
   });
 });
 
-// ===== Disable right-click =====
+// ===== Disable Right‑Click =====
 document.addEventListener('contextmenu', event => event.preventDefault());
 
-// ===== Search functionality =====
+// ===== Search Functionality =====
 const searchInput = document.getElementById('searchInput');
 const cards = Array.from(document.querySelectorAll('.card'));
 const noResults = document.getElementById('noResults');
@@ -42,7 +42,6 @@ function filterCards(query) {
 searchInput.addEventListener('input', e => {
   filterCards(e.target.value);
 });
-
 searchInput.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     searchInput.value = '';
@@ -51,7 +50,7 @@ searchInput.addEventListener('keydown', e => {
   }
 });
 
-// ===== Scroll reveal animation =====
+// ===== Scroll Reveal Animation =====
 const animatedCards = document.querySelectorAll('.animate');
 function showOnScroll() {
   const triggerBottom = window.innerHeight * 0.85;
@@ -120,22 +119,21 @@ animateParticles();
 // ===== Tab Switching =====
 const tabButtons = document.querySelectorAll(".tab-button");
 const tabContents = document.querySelectorAll(".tab-content");
-
 tabButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     tabButtons.forEach(b => b.classList.remove("active"));
     tabContents.forEach(c => c.classList.remove("active"));
-
     btn.classList.add("active");
     document.getElementById(btn.dataset.tab).classList.add("active");
   });
 });
 
-// ===== Favorites system =====
+// ===== Favorites System =====
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 function toggleFavorite(e) {
   const card = e.target.closest(".card");
+  if (!card) return;
   const name = card.dataset.name;
 
   if (favorites.includes(name)) {
@@ -151,6 +149,7 @@ function toggleFavorite(e) {
 
 function updateFavorites() {
   const favList = document.getElementById("favoritesList");
+  if (!favList) return;
   favList.innerHTML = "";
 
   favorites.forEach(name => {
@@ -158,8 +157,10 @@ function updateFavorites() {
     if (card) {
       const clone = card.cloneNode(true);
       const btn = clone.querySelector(".favorite-btn");
-      btn.addEventListener("click", toggleFavorite);
-      btn.textContent = "🟡";
+      if (btn) {
+        btn.textContent = "🟡";
+        btn.addEventListener("click", toggleFavorite);
+      }
       favList.appendChild(clone);
     }
   });
@@ -174,11 +175,11 @@ function updateFavoriteButtons() {
   });
 }
 
-// Add favorite buttons to cards
+// Add favorite buttons to all cards
 document.querySelectorAll(".card").forEach(card => {
   const favBtn = document.createElement("div");
   favBtn.classList.add("favorite-btn");
-  favBtn.textContent = favorites.includes(card.dataset.name) ? "🟡" : "🔴";
+  favBtn.textContent = "🔴";
   card.appendChild(favBtn);
   favBtn.addEventListener("click", toggleFavorite);
 });

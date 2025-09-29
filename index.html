@@ -1,88 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Moz Scripts 📜</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Moz Scripts 📜</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Particle background -->
-  <canvas id="particles"></canvas>
+<canvas id="particles"></canvas>
 
-  <!-- Header -->
-  <header>
-    <img src="images/main.png" alt="Moz Scripts Logo" class="main-logo">
-    <h1>Moz Scripts 📜</h1>
-  </header>
+<header>
+<img src="images/main.png" alt="Moz Scripts Logo" class="main-logo">
+<h1>Moz Scripts 📜</h1>
+</header>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab-button active" data-tab="scriptsTab">Scripts</button>
-    <button class="tab-button" data-tab="favoritesTab">Favorites ⭐</button>
-  </div>
+<div class="tabs">
+<button class="tab-button active" data-tab="scriptsTab">Scripts</button>
+<button class="tab-button" data-tab="favoritesTab">Favorites ⭐</button>
+</div>
 
-  <!-- Scripts Container -->
-  <section id="scriptsTab" class="tab-content active">
-    <div class="scripts">
-      <!-- Search bar -->
-      <div class="search-wrap">
-        <input id="searchInput" type="search" placeholder="Search scripts..." aria-label="Search scripts">
-      </div>
+<section id="scriptsTab" class="tab-content active">
+<div class="scripts">
+<div class="card animate" data-name="Speedrun Timer">
+<img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
+<h2>Speedrun Timer ⚡</h2>
+<p class="description">Track your speedruns with precision.</p>
+<a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
+<a href="https://jumpshare.com/s/NTxmsfAeoYN7SLwy4n9g" target="_blank" class="showcase">Showcase</a>
+</div>
 
-      <!-- Script cards -->
-      <div class="card animate" data-name="Speedrun Timer">
-        <img src="images/thumb1.png" alt="Script Thumbnail" class="thumbnail">
-        <h2>Speedrun Timer ⚡</h2>
-        <p class="description">Track your speedruns with precision.</p>
-        <a href="https://link-unlock.com/prefenix8292" target="_blank" class="get-script">Get Script</a>
-        <a href="https://jumpshare.com/s/NTxmsfAeoYN7SLwy4n9g" target="_blank" class="showcase">Showcase</a>
-      </div>
+<div class="card animate" data-name="Coming Soon">
+<img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
+<h2>Coming Soon 👀</h2>
+<p class="description">Soon.</p>
+<a href="#" target="_blank" class="get-script">Coming Soon</a>
+<a href="#" target="_blank" class="showcase">Coming Soon</a>
+</div>
+</div>
+<div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
+</section>
 
-      <div class="card animate" data-name="Coming Soon">
-        <img src="images/thumb2.png" alt="Script Thumbnail" class="thumbnail">
-        <h2>Coming Soon 👀</h2>
-        <p class="description">Soon.</p>
-        <a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="get-script">Coming Soon</a>
-        <a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="showcase">Coming Soon</a>
-      </div>
+<section id="favoritesTab" class="tab-content">
+<div id="favoritesList"></div>
+</section>
 
-      <div class="card animate" data-name="Coming Soon">
-        <img src="images/thumb3.png" alt="Script Thumbnail" class="thumbnail">
-        <h2>Coming Soon 💸</h2>
-        <p class="description">Soon.</p>
-        <a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="get-script">Coming Soon</a>
-        <a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="showcase">Coming Soon</a>
-      </div>
+<div class="socials">
+<a href="https://discord.gg/wchns7Bcnq" target="_blank" class="social help">Help?</a>
+</div>
 
-      <div class="card animate" data-name="Coming Soon">
-        <img src="images/thumb4.png" alt="Script Thumbnail" class="thumbnail">
-        <h2>Coming Soon ⚡</h2>
-        <p class="description">Soon.</p>
-        <a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="get-script">Coming Soon</a>
-        <a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="showcase">Coming Soon</a>
-      </div>
+<script>
+const tabs = document.querySelectorAll(".tab-button");
+const contents = document.querySelectorAll(".tab-content");
 
-      <div class="card animate" data-name="Coming Soon">
-        <img src="images/thumb5.png" alt="Script Thumbnail" class="thumbnail">
-        <h2>Coming Soon 💀</h2>
-        <p class="description">Soon.</p>
-        <a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="get-script">Coming Soon</a>
-        <a href="https://mozscripts-home-scripts-com.vercel.app/" target="_blank" class="showcase">Coming Soon</a>
-      </div>
-
-      <div id="noResults" class="no-results" style="display:none;">No scripts found.</div>
-    </div>
-  </section>
-
-  <!-- Favorites Container -->
-  <section id="favoritesTab" class="tab-content">
-    <div id="favoritesList"></div>
-  </section>
-
-  <!-- Help Button -->
-  <div class="socials">
-    <a href="https://discord.gg/wchns7Bcnq" target="_blank" class="social help">Help?</a>
-  </div>
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    tabs.forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    contents.forEach(content => content.classList.remove("active"));
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  });
+});
+</script>
 </body>
 </html>

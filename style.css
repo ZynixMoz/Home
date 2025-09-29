@@ -1,0 +1,79 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: black;
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+}
+
+/* Header */
+header {
+  padding: 20px;
+}
+header .main-logo {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+header h1 {
+  margin-top: 10px;
+  font-size: 3rem;
+  letter-spacing: 2px;
+}
+
+/* Scripts Section */
+.scripts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin: 40px 0;
+}
+
+/* Card */
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  width: 80%;
+  max-width: 900px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: scale(1.02);
+}
+
+.thumbnail {
+  width: 100%;
+  max-width: 1000px;
+  border-radius: 12px;
+}
+
+.description {
+  margin: 15px 0;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+/* Get Script Button */
+.get-script {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 50px;
+  background: lightgray;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.get-script:hover {
+  background: white;
+}

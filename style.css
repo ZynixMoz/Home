@@ -223,8 +223,35 @@ a {
 .tab-button:hover {
   transform: scale(1.05);
 }
+/* Remove button focus outline */
+button:focus {
+  outline: none;
+}
 
-/* Favorite button */
+/* Tabs & favorites styles */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  background: #222;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
+}
+.tab-button.active {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
+}
+.tab-button:hover {
+  transform: scale(1.05);
+}
 .favorite-btn {
   position: absolute;
   top: 8px;
@@ -238,45 +265,18 @@ a {
   transition: transform 0.2s, color 0.2s, text-shadow 0.2s;
   z-index: 10;
 }
-
 .favorite-btn:hover {
   transform: scale(1.2);
   color: gold;
   text-shadow: 0 0 10px gold;
 }
-
 .favorite-btn.active {
   color: gold;
   text-shadow: 0 0 15px gold;
 }
-
-/* Scripts & Favorites Sections */
-#favoritesSection {
-  padding: 20px;
+.tab-content {
+  display: none;
 }
-
-#favoritesList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-/* Card adjustments for favorites */
-.card {
-  position: relative;
-}
-
-.card img.thumbnail {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.card h2 {
-  margin-top: 10px;
-  font-size: 1.2em;
-}
-
-.card p.description {
-  font-size: 0.9em;
-  color: #ccc;
+.tab-content.active {
+  display: block;
 }

@@ -199,6 +199,7 @@ window.addEventListener("load", () => {
   updateFavoriteButtons();
   updateFavoritesTab();
 });
+
 // ===== COLOR THEME SWITCHER =====
 const logo = document.querySelector('.main-logo');
 const themeNameLabel = document.getElementById('theme-name');
@@ -215,18 +216,17 @@ let themeIndex = 0;
 
 function applyTheme(theme) {
   document.body.style.background = theme.bg;
-  document.body.style.animation = "none"; // no animation for now
   document.documentElement.style.setProperty("--card-bg", theme.cardBg);
   document.documentElement.style.setProperty("--text-color", theme.text);
 
   if (themeNameLabel) themeNameLabel.textContent = theme.name + " Mode";
 }
 
-// Cycle themes when clicking logo
-logo.addEventListener('click', () => {
-  themeIndex = (themeIndex + 1) % themes.length;
-  applyTheme(themes[themeIndex]);
-});
+if (logo) {
+  logo.addEventListener('click', () => {
+    themeIndex = (themeIndex + 1) % themes.length;
+    applyTheme(themes[themeIndex]);
+  });
+}
 
-// Apply default theme on load
 applyTheme(themes[themeIndex]);

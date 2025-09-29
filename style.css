@@ -40,7 +40,7 @@ h1 {
   padding: 16px 20px;
   border-radius: 20px;
   border: none;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.1);
   color: #eee;
   font-size: 1.1rem;
   outline: none;
@@ -61,7 +61,7 @@ h1 {
 
 /* Cards */
 .card {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
   border-radius: 20px;
   padding: 20px;
   margin: 20px auto;

@@ -117,21 +117,21 @@ h1 {
   font-weight: bold;
 }
 .get-script {
-  background: lightgray;
+  background: #fff; /* changed to white */
   color: #000;
 }
 .get-script:hover {
-  background: #ddd;
+  background: #eee;
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
   transform: scale(1.05);
 }
 .showcase {
-  background: #ff4d4d;
+  background: #ff0000; /* changed to red */
   color: #fff;
 }
 .showcase:hover {
-  background: #e60000;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+  background: #cc0000;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.7);
   transform: scale(1.05);
 }
 
@@ -217,8 +217,8 @@ a,
   transition: background 0.3s, transform 0.2s;
 }
 .tab-button.active {
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
-  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
+  background: linear-gradient(90deg, #ff7e00, #ffae00); /* orange gradient */
+  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5);
 }
 .tab-button:hover {
   transform: scale(1.05);

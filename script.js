@@ -49,11 +49,14 @@ searchInput.addEventListener('keydown', e => {
 });
 
 // ===== SCROLL REVEAL =====
+const animatedCards = document.querySelectorAll('.animate');
 function showOnScroll() {
   const triggerBottom = window.innerHeight * 0.85;
-  document.querySelectorAll('.animate').forEach(card => {
+  animatedCards.forEach(card => {
     const cardTop = card.getBoundingClientRect().top;
-    if (cardTop < triggerBottom) card.classList.add('show');
+    if (cardTop < triggerBottom) {
+      card.classList.add('show');
+    }
   });
 }
 window.addEventListener('scroll', showOnScroll);
@@ -100,6 +103,7 @@ function initParticles() {
     particlesArray.push(new Particle());
   }
 }
+
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particlesArray.forEach(p => {
@@ -121,7 +125,6 @@ tabButtons.forEach(btn => {
     tabContents.forEach(c => c.classList.remove("active"));
     btn.classList.add("active");
     document.getElementById(btn.dataset.tab).classList.add("active");
-    showOnScroll(); // trigger animations for new tab content
   });
 });
 
@@ -150,20 +153,23 @@ function updateFavorites() {
   favList.innerHTML = "";
 
   favorites.forEach(name => {
-    const card = document.querySelector(`.card[data-name="${name}"]`);
-    if (card) {
-      const clone = card.cloneNode(true);
-      clone.classList.add("animate"); // keep animation for cloned cards
+    const originalCard = document.querySelector(`.card[data-name="${name}"]`);
+    if (originalCard) {
+      const clone = originalCard.cloneNode(true);
+      clone.classList.add("animate");
+
       const btn = clone.querySelector(".favorite-btn");
       if (btn) {
         btn.textContent = "⭐";
+        btn.removeEventListener("click", toggleFavorite);
         btn.addEventListener("click", toggleFavorite);
       }
+
       favList.appendChild(clone);
     }
   });
 
-  showOnScroll(); // run animation after favorites update
+  showOnScroll();
 }
 
 function updateFavoriteButtons() {
@@ -184,6 +190,7 @@ document.querySelectorAll(".card").forEach(card => {
   favBtn.addEventListener("click", toggleFavorite);
 });
 
+// Load favorites on page load
 window.addEventListener("load", () => {
   favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   updateFavorites();

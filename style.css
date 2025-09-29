@@ -1,4 +1,21 @@
-/* General Reset */
+#searchHistory {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.history-item {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.history-item:hover {
+  background: #555;
+}/* General Reset */
 * {
   margin: 0;
   padding: 0;

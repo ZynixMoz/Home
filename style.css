@@ -263,16 +263,15 @@ button:focus, .favorite-btn:focus {
   box-shadow: none;
 }.search-wrap {
   display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 10px;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 15px;
 }
 
 #searchInput {
   padding: 8px 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  flex: 1;
   font-size: 16px;
 }
 
@@ -283,6 +282,7 @@ button:focus, .favorite-btn:focus {
   border: none;
   cursor: pointer;
   font-size: 14px;
+  align-self: flex-start;
   transition: background-color 0.2s;
 }
 
@@ -291,16 +291,15 @@ button:focus, .favorite-btn:focus {
 }
 
 #searchHistory {
-  margin-top: 5px;
-  font-size: 14px;
-  color: #555;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 #searchHistory span {
-  display: inline-block;
   background: #f1f1f1;
   border-radius: 12px;
   padding: 4px 8px;
-  margin: 2px;
   cursor: pointer;
+  font-size: 14px;
 }

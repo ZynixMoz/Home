@@ -198,17 +198,27 @@ window.addEventListener("load", () => {
   favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   updateFavoriteButtons();
   updateFavoritesTab();
-});const startDate = new Date("2025-09-17T00:00:00Z");
+});
+
+// ===== VIEWS SYSTEM =====
+const startDate = new Date("2025-09-01T00:00:00Z");
 
 function getViewsForCard(name, seconds) {
-  if (name.toLowerCase() === "coming soon") {
+  const lowerName = name.toLowerCase();
+
+  if (lowerName === "coming soon") {
     return 0; // all coming soon cards = 0 views
   }
 
-  // Randomize per card (different growth for each)
-  const seed = name.length * 999; 
-  const base = (seed % 1200) + 200; // 200 - 1400 base
-  const interval = (seed % 50) + 30; // +1 every 30–80 seconds
+  let base, interval;
+  if (lowerName === "speedrun timer" || lowerName === "freecam script") {
+    base = 500; // same starting views for both
+    interval = 40; // same growth rate for both
+  } else {
+    const seed = name.length * 999; 
+    base = (seed % 1200) + 200;
+    interval = (seed % 50) + 30;
+  }
 
   return base + Math.floor(seconds / interval);
 }

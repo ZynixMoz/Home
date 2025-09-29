@@ -54,9 +54,7 @@ function showOnScroll() {
   const triggerBottom = window.innerHeight * 0.85;
   animatedCards.forEach(card => {
     const cardTop = card.getBoundingClientRect().top;
-    if (cardTop < triggerBottom) {
-      card.classList.add('show');
-    }
+    if (cardTop < triggerBottom) card.classList.add('show');
   });
 }
 window.addEventListener('scroll', showOnScroll);
@@ -103,7 +101,6 @@ function initParticles() {
     particlesArray.push(new Particle());
   }
 }
-
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particlesArray.forEach(p => {
@@ -175,7 +172,6 @@ function updateFavoriteButtons() {
   });
 }
 
-// Add favorite buttons to all cards
 document.querySelectorAll(".card").forEach(card => {
   const favBtn = document.createElement("div");
   favBtn.classList.add("favorite-btn");
@@ -184,7 +180,6 @@ document.querySelectorAll(".card").forEach(card => {
   favBtn.addEventListener("click", toggleFavorite);
 });
 
-// Load favorites on page load
 window.addEventListener("load", () => {
   favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   updateFavorites();

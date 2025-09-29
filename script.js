@@ -198,106 +198,119 @@ window.addEventListener("load", () => {
   favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   updateFavoriteButtons();
   updateFavoritesTab();
-});
-// ====== FAKE VIEWS (deterministic per-card, same across devices) ======
+});// ====== DETERMINISTIC FAKE VIEWS (updated ranges: base 100-9k, rare big spikes 9k-50k) ======
 
-// CONFIG: adjust these if you want different behavior
 const VIEWS_CONFIG = {
-  startDate: '2024-01-01', // ISO date when counting begins (UTC). pick any past date.
-  baseMinPerDay: 5,
-  baseMaxPerDay: 100,
-  spikeValue: 1000,
-  spikeChance: 0.02, // 2% chance per day to be a spike (1k)
+  startDate: '2023-01-01',    // earlier start so numbers have grown visibly
+  baseMin: 100,               // base starting range min
+  baseMax: 9000,              // base starting range max
+  dailyMin: 5,                // normal per-day growth min
+  dailyMax: 100,              // normal per-day growth max
+  spikeMin: 9000,             // spike min (when a spike happens)
+  spikeMax: 50000,            // spike max
+  spikeChance: 0.01           // 1% chance per day for a big spike
 };
 
-// simple hash to turn string into integer seed
+// hash string -> uint32
 function hashStringToInt(str) {
   let h = 2166136261 >>> 0;
   for (let i = 0; i < str.length; i++) {
     h ^= str.charCodeAt(i);
     h = Math.imul(h, 16777619) >>> 0;
   }
-  return h;
+  return h >>> 0;
 }
 
-// xorshift32 PRNG (deterministic, fast)
+// xorshift32 PRNG factory
 function xorshift32(seed) {
   let x = seed >>> 0;
   return function() {
-    x ^= x << 13;
+    x ^= (x << 13) >>> 0;
     x ^= x >>> 17;
-    x ^= x << 5;
+    x ^= (x << 5) >>> 0;
     return (x >>> 0) / 4294967295;
   };
 }
 
-// days since UTC epoch defined by startDate
+// number of UTC days since startDate
 function daysSinceStart(startISO) {
-  const start = new Date(startISO + 'T00:00:00Z'); // explicit UTC midnight
-  const now = new Date(); // local time, but we'll compare by UTC date below
-  // compute difference in days by UTC
+  const start = new Date(startISO + 'T00:00:00Z');
+  const now = new Date();
   const utcStart = Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate());
   const todayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
   const msPerDay = 24 * 60 * 60 * 1000;
   return Math.floor((todayUTC - utcStart) / msPerDay);
 }
 
-// deterministic daily increment for a card for a particular day index
+// deterministic daily increment (may be normal or a big spike)
 function dailyIncrementFor(cardSeedInt, dayIndex) {
-  // combine seed + dayIndex -> new seed
-  const seed = (cardSeedInt ^ (dayIndex * 2654435761)) >>> 0;
-  const rand = xorshift32(seed);
+  // mix seed with dayIndex to produce a per-day deterministic seed
+  const mix = (cardSeedInt ^ (dayIndex * 2654435761)) >>> 0;
+  const rand = xorshift32(mix);
   const r = rand();
+
   // spike?
   if (r < VIEWS_CONFIG.spikeChance) {
-    return VIEWS_CONFIG.spikeValue;
+    // produce spike size in [spikeMin, spikeMax]
+    // use another deterministic rand call so spikes vary per day
+    const r2 = rand();
+    const spike = Math.floor(r2 * (VIEWS_CONFIG.spikeMax - VIEWS_CONFIG.spikeMin + 1)) + VIEWS_CONFIG.spikeMin;
+    return spike;
   }
-  // else uniform between min and max inclusive
-  const min = VIEWS_CONFIG.baseMinPerDay;
-  const max = VIEWS_CONFIG.baseMaxPerDay;
-  const val = Math.floor(r * (max - min + 1)) + min;
-  return val;
+
+  // normal daily addition in [dailyMin, dailyMax]
+  const normal = Math.floor(r * (VIEWS_CONFIG.dailyMax - VIEWS_CONFIG.dailyMin + 1)) + VIEWS_CONFIG.dailyMin;
+  return normal;
 }
 
-// compute cumulative views for a card based on its "name" string
+// compute deterministic base between baseMin..baseMax from name seed
+function baseForName(nameSeed) {
+  return (nameSeed % (VIEWS_CONFIG.baseMax - VIEWS_CONFIG.baseMin + 1)) + VIEWS_CONFIG.baseMin;
+}
+
+// compute cumulative views for a card by name
 function computeViewsForCardName(name) {
-  const nameSeed = hashStringToInt(name || 'unknown');
-  // base starting views derived from nameSeed so different cards start at different offsets
-  const base = (nameSeed % 4000) + 100; // base between 100 and 4099 (feel free to tweak)
+  const trimmed = (name || 'script').trim();
+  const seed = hashStringToInt(trimmed);
+  const base = baseForName(seed);
   const days = daysSinceStart(VIEWS_CONFIG.startDate);
   let total = base;
+  // sum daily increments (inclusive of day 0)
   for (let d = 0; d <= days; d++) {
-    total += dailyIncrementFor(nameSeed, d);
+    total += dailyIncrementFor(seed, d);
   }
   return total;
 }
 
-// format number with commas
+// format with commas
 function formatNumber(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-// attach views counts to DOM
+// render all views on page
 function renderAllViews() {
-  const cards = document.querySelectorAll('.card');
-  cards.forEach(card => {
-    const name = card.getAttribute('data-name') || card.querySelector('h2')?.textContent || 'script';
-    const viewsCountEl = card.querySelector('.views-count');
-    if (!viewsCountEl) return;
-    const views = computeViewsForCardName(name.trim());
-    viewsCountEl.textContent = formatNumber(views);
+  document.querySelectorAll('.card').forEach(card => {
+    const name = card.getAttribute('data-name') || (card.querySelector('h2')?.textContent) || 'script';
+    const el = card.querySelector('.views-count');
+    if (!el) return;
+    const v = computeViewsForCardName(name);
+    el.textContent = formatNumber(v);
   });
 }
 
-// run on load and whenever cards may change (e.g., after search or cloning)
-window.addEventListener('load', () => {
-  // initial render
-  renderAllViews();
-
-  // re-render after favorites tab updates (cloning might duplicate counts)
-  // you already call updateFavoritesTab(); so call renderAllViews at end of that function
-});
-
-// If you want, call renderAllViews() at ends of functions that mutate cards:
-// e.g., add this line at the end of updateFavoritesTab() and updateFavoriteButtons()
-// renderAllViews();
+// -- INTEGRATION NOTES --
+// 1) Call renderAllViews() on load and after you clone/update cards (favorites).
+//    e.g., in your existing window.load block, ensure:
+//      renderAllViews();
+//    and at the end of updateFavoritesTab() also call renderAllViews();
+//
+// 2) If you want the number to animate up on display, you can add a small number-tween
+//    routine — lmk and I'll add it.
+//
+// Example: add this to your window.load block (if not already):
+// window.addEventListener('load', () => {
+//   favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+//   updateFavoriteButtons();
+//   updateFavoritesTab();
+//   renderAllViews(); // <-- make sure this runs
+// });

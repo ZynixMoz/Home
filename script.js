@@ -125,6 +125,11 @@ tabButtons.forEach(btn => {
     tabContents.forEach(c => c.classList.remove("active"));
     btn.classList.add("active");
     document.getElementById(btn.dataset.tab).classList.add("active");
+
+    // FIX: Refresh favorites tab when switching to it
+    if (btn.dataset.tab === "favoritesTab") {
+      updateFavoritesTab();
+    }
   });
 });
 
